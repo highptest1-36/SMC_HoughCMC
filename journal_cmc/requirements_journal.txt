@@ -1,0 +1,21 @@
+# journal_cmc dependencies — everything EXCEPT torch.
+# Install torch FIRST from the CUDA index (see SETUP_ENV.md), then:
+#     pip install -r requirements_journal.txt
+# Bounds keep a fresh install close to the versions that were verified (in comments).
+
+numpy>=1.24,<2.1          # tested 1.26.4
+opencv-python>=4.5        # tested 4.11.0   (core only; opencv-contrib NOT required)
+scipy>=1.10               # tested 1.15.3
+pandas>=2.0               # tested 2.3.0
+matplotlib>=3.6           # tested 3.10.9
+
+scikit-optimize>=0.10     # tested 0.10.2   (CPU Bayesian-Optimization fallback)
+pyswarms>=1.3             # tested 1.3.0    (Particle Swarm Optimization)
+
+# GPU Bayesian Optimization (surrogate on the RTX 3060). Pinned so pip does NOT
+# pull a newer botorch that would try to upgrade torch to a CPU build.
+botorch==0.16.1           # tested 0.16.1
+gpytorch==1.15.2          # tested 1.15.2   (botorch dependency)
+
+# torch is installed separately (CUDA build), e.g.:
+#     pip install torch==2.7.1 --index-url https://download.pytorch.org/whl/cu126

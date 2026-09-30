@@ -1,0 +1,5 @@
+Variant,Min detection,Lane RMSE (px),SSI (deg/step),Jerk (deg/step²),m6 (px²),Violation rate (fraction of steps),Speed RMSE median (respawn runs),Steering gains found by BO
+"Sign switching, no stability term",0.999,33.34 ± 3.12,2.08 ± 0.11,4.05 ± 0.22,282.25 ± 66.64,0.437 ± 0.027,1.09 (2),"λ=0.343, η=0.50, φ=inert"
+"Boundary layer, no stability term",1.000,39.48 ± 5.92,0.70 ± 0.06,1.36 ± 0.12,186.24 ± 67.02,0.458 ± 0.030,0.65 (3),"λ=0.107, η=0.50, φ=41.3"
+Sign switching + stability term,0.999,31.93 ± 4.42,1.35 ± 0.08,2.63 ± 0.16,230.56 ± 94.85,0.458 ± 0.032,0.62 (3),"λ=0.188, η=0.50, φ=inert"
+Boundary layer + stability term (full),1.000,31.26 ± 1.65,1.07 ± 0.06,2.08 ± 0.11,182.52 ± 17.60,0.443 ± 0.025,0.67 (1),"λ=0.167, η=0.50, φ=20.1"

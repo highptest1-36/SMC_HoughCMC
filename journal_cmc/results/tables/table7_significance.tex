@@ -1,0 +1,11 @@
+\begin{tabular}{llrrrrrl}
+\toprule
+Comparison & Metric & n & MeanImprovement & p(Wilcoxon) & p(Holm-adj) & p(t-test,ref) & Significant(Holm<0.05) \\
+\midrule
+BO_SMC vs ManualSMC & ssi & 15 & -0.5172 & 0.0001 & 0.0003 & 0.0000 & Yes \\
+BO_SMC vs ManualSMC & lane_rmse_px & 15 & 9.6268 & 0.0001 & 0.0005 & 0.0003 & Yes \\
+BO_SMC vs PSO_SMC & chattering_index & 15 & 1.5245 & 0.3028 & 0.9084 & 0.4510 & No \\
+BO_SMC vs TunedPID & lane_rmse_px & 15 & -1.2003 & 0.5995 & 1.0000 & 0.5282 & No \\
+BO_SMC vs TunedPID & ssi & 15 & 0.0345 & 0.5614 & 1.0000 & 0.3237 & No \\
+\bottomrule
+\end{tabular}

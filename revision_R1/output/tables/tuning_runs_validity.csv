@@ -1,0 +1,6 @@
+run,evals,valid,first_invalid,best,best_valid
+BO (deployed),60,60,—,4.279 (call 20),yes
+PSO (deployed),80,13,13,4.989 (call 12),yes
+Random (not deployed),40,40,—,5.043 (call 20),yes
+Grid (deployed),27,27,—,6.361 (call 9),yes
+Tuned PID (BO over PID gains),60,60,—,4.203 (call 58),yes

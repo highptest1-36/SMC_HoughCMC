@@ -1,0 +1,14 @@
+run,objective,eta,phi,eta_over_phi,K_P
+deployed BO,baseline,0.500,80.0,0.0063,0.176
+fair BO seed 0,baseline,0.500,73.7,0.0068,0.194
+fair BO seed 1,baseline,0.500,42.6,0.0117,0.157
+fair BO seed 2,baseline,0.500,62.7,0.0080,0.220
+fair BO seed 3,baseline,0.500,80.0,0.0063,0.167
+fair BO seed 4,baseline,0.500,64.6,0.0077,0.129
+fair BO seed 5,baseline,0.500,58.4,0.0086,0.136
+fair BO seed 6,baseline,0.500,26.5,0.0189,0.179
+fair BO seed 7,baseline,0.500,14.8,0.0339,0.171
+fair BO seed 8,baseline,0.500,51.5,0.0097,0.138
+fair BO seed 9,baseline,0.500,68.2,0.0073,0.150
+ablation BO_full,baseline (replicate),0.500,20.1,0.0248,0.171
+ablation BO_BL_noLyap,w6 = 0,0.500,41.3,0.0121,0.108

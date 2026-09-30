@@ -1,0 +1,21 @@
+Comparator,Metric,Condition,n pairs,Means (proposed vs comparator),Mean diff [95% CI],p,Holm p,Sig.
+PID,SSI,Nominal,8,1.10 vs 10.07,"-8.97 [-9.16, -8.78]",0.008,0.109,no
+PID,SSI,Noise,10,1.92 vs 5.08,"-3.15 [-3.38, -2.80]",0.002,0.039,yes
+PID,SSI,Shadow,10,12.84 vs 24.63,"-11.79 [-12.01, -11.60]",0.002,0.039,yes
+PID,SSI,Occlusion,10,3.72 vs 21.50,"-17.78 [-18.06, -17.50]",0.002,0.039,yes
+PID,SSI,Blur,9,0.87 vs 8.81,"-7.94 [-8.09, -7.81]",0.004,0.059,no
+PID,Lane RMSE,Nominal,8,34.41 vs 34.02,"+0.39 [-1.71, +2.72]",0.844,1.000,no
+PID,Lane RMSE,Noise,10,16.16 vs 16.12,"+0.05 [-0.95, +3.20]",0.131,1.000,no
+PID,Lane RMSE,Shadow,10,147.03 vs 163.76,"-16.72 [-19.39, -14.94]",0.002,0.039,yes
+PID,Lane RMSE,Occlusion,10,36.72 vs 73.87,"-37.14 [-42.98, -32.39]",0.002,0.039,yes
+PID,Lane RMSE,Blur,9,41.94 vs 32.22,"+9.72 [-2.17, +53.92]",0.652,1.000,no
+Tuned PID,SSI,Nominal,9,1.10 vs 1.07,"+0.03 [-0.01, +0.06]",0.129,1.000,no
+Tuned PID,SSI,Noise,10,1.92 vs 1.82,"+0.10 [+0.04, +0.15]",0.010,0.127,no
+Tuned PID,SSI,Shadow,10,12.84 vs 12.51,"+0.32 [-0.19, +0.65]",0.064,0.773,no
+Tuned PID,SSI,Occlusion,10,3.72 vs 3.80,"-0.07 [-0.18, +0.06]",0.275,1.000,no
+Tuned PID,SSI,Blur,9,0.87 vs 0.90,"-0.03 [-0.27, +0.05]",0.359,1.000,no
+Tuned PID,Lane RMSE,Nominal,9,33.74 vs 32.84,"+0.90 [-3.30, +6.27]",1.000,1.000,no
+Tuned PID,Lane RMSE,Noise,10,16.16 vs 16.42,"-0.26 [-1.25, +3.21]",0.084,0.924,no
+Tuned PID,Lane RMSE,Shadow,10,147.03 vs 147.31,"-0.27 [-2.24, +2.86]",0.695,1.000,no
+Tuned PID,Lane RMSE,Occlusion,10,36.72 vs 36.39,"+0.33 [-3.34, +6.11]",0.492,1.000,no
+Tuned PID,Lane RMSE,Blur,9,41.94 vs 34.65,"+7.29 [-5.97, +55.43]",0.203,1.000,no
