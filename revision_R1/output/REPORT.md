@@ -1,5 +1,5 @@
 # Revision R1 — analysis report (CMC ID 92446)
-Generated: 2026-09-30 18:40:50 · Python 3.10.6 · numpy 1.26.4 · scipy 1.15.3 · matplotlib 3.10.9
+Generated: 2026-09-30 19:03:44 · Python 3.10.6 · numpy 1.26.4 · scipy 1.15.3 · matplotlib 3.10.9
 Data folder: D:\Xetuhanh\UTE_Car_2025\Map_demo____1\Window\cdoe\SMC_Hough_CMC\journal_cmc\results
 
 
@@ -410,3 +410,16 @@ Violation rate (the manuscript's 'sample frequency') = fraction of logged contro
 - `fig3_steering_rev_grid.png`: PID SSI 10.31 deg/step (loop 176 Hz); Grid-search SMC SSI 2.74 deg/step (loop 172 Hz); Proposed BO-SMC SSI 1.04 deg/step (loop 155 Hz)
 - `fig3_steering_rev_pso.png`: PID SSI 10.31 deg/step (loop 176 Hz); PSO SMC SSI 3.02 deg/step (loop 150 Hz); Proposed BO-SMC SSI 1.04 deg/step (loop 155 Hz)
 The per-run SSI values of run 0 differ from the 15-run means in Table 4; the caption must say 'single representative run (run index 0)'.
+
+---
+
+## S7. Statistics quoted in the text (reported controllers only)
+- Control loop over the 75 reported nominal episodes: mean 139.7 Hz, range 103–176 Hz.
+- New camera frames (run 0 logs, loop rate × fraction of steps with a changed lane error): PID 63% repeated, 65 Hz; Tuned PID 61% repeated, 56 Hz; Manual SMC 65% repeated, 55 Hz; Grid-search SMC 64% repeated, 61 Hz; PSO SMC 64% repeated, 55 Hz; Proposed BO-SMC 64% repeated, 56 Hz
+- Respawn effect on lateral error (within controller, mean over 5 reported controllers): -8.4 px. Speed clusters: 0.60–4.31 km/h and 10.72–13.90 km/h.
+- Single-episode objective J at fixed gains (15 nominal episodes): PID SD 0.37; Tuned PID SD 0.90; Manual SMC SD 0.71; Grid-search SMC SD 0.87; Proposed BO-SMC SD 0.97. Proposed mean J 5.08 (tuning J 4.28); manual mean J 5.21, median 5.07.
+- Instantaneous respawn drops inside logged windows (lane still detected): robust_BO_SMC_occlusion_seed0.json: 49.4 -> 0.0 km/h; robust_ManualSMC_noise_seed0.json: 48.9 -> 5.5 km/h; robust_ManualSMC_noise_seed0.json: 48.9 -> 0.0 km/h; robust_ManualSMC_noise_seed0.json: 48.9 -> 0.0 km/h
+- Switching share of the command, using the deployed trajectory as a proxy: phi=80: 1.3%, phi=41.3: 2.5%, phi=20.1: 4.3%, phi=14.8: 5.2%
+- Robustness variant B (no exclusion): significant after Holm (20 tests): ['PID/ssi/noise', 'PID/ssi/shadow', 'PID/ssi/occlusion', 'PID/ssi/blur', 'PID/lane_rmse_px/shadow', 'PID/lane_rmse_px/occlusion']; blur SSI vs PID Holm p = 0.039
+- Robustness variant C (balanced exclusion): significant after Holm (20 tests): ['PID/ssi/noise', 'PID/ssi/shadow', 'PID/ssi/occlusion', 'PID/lane_rmse_px/shadow', 'PID/lane_rmse_px/occlusion']; blur SSI vs PID Holm p = 0.059
+  nominal lane RMSE with balanced exclusion: PID 34.02, proposed 34.41 px
