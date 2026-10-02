@@ -32,7 +32,7 @@ def run():
         r = [name, f"{min(V[v]['detection_rate']):.3f}"]
         for k, _ in MET:
             mu, sd = K.mean_sd(V[v][k])
-            r.append(f"{mu:.3f} ± {sd:.3f}" if k == "lyap_violation_rate" else f"{mu:.2f} ± {sd:.2f}")
+            r.append(f"{mu:.3f} ({sd:.3f})" if k == "lyap_violation_rate" else f"{mu:.2f} ({sd:.2f})")
         sp = V[v]["speed_rmse"]
         r.append(f"{np.median(sp):.2f} ({int((sp>K.RESPAWN_SPEED_RMSE).sum())})")
         g = ab[v]["gains"]

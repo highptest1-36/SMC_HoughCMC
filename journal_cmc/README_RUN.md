@@ -98,7 +98,7 @@ lệnh từ client). **Chỉ mở 1 lần** cho cả loạt lệnh bên dưới.
 
 ### Bước 2 — Mở terminal tại thư mục journal_cmc
 ```bash
-cd d:/Xetuhanh/UTE_Car_2025/Map_demo____1/Window/cdoe/SMC_Hough_CMC/journal_cmc
+cd journal_cmc   # from the repository root
 ```
 
 ### Bước 3 — Chạy thử 1 episode (kiểm tra kết nối + xem trực quan)

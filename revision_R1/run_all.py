@@ -37,7 +37,7 @@ def main():
     head = [f"# Revision R1 — analysis report (CMC ID 92446)",
             f"Generated: {datetime.datetime.now():%Y-%m-%d %H:%M:%S} · Python {platform.python_version()} · "
             f"numpy {numpy.__version__} · scipy {scipy.__version__} · matplotlib {matplotlib.__version__}",
-            f"Data folder: {K.RESULTS}", ""]
+            "Data folder: journal_cmc/results (relative to the repository root)", ""]
     parts, log, ok = [], [], 0
     for name, fn in STEPS:
         print(f"[run_all] {name} ...", flush=True)

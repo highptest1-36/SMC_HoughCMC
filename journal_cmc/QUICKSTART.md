@@ -8,7 +8,7 @@
 ## ✅ Chuẩn bị 1 lần — tạo môi trường (xem **SETUP_ENV.md** để biết chi tiết)
 
 ```powershell
-cd d:/Xetuhanh/UTE_Car_2025/Map_demo____1/Window/cdoe/SMC_Hough_CMC/journal_cmc
+cd journal_cmc   # from the repository root
 powershell -ExecutionPolicy Bypass -File .\setup_env.ps1   # tạo env 'smc_cmc' + cài đủ (1 lần)
 ```
 

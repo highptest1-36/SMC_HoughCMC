@@ -31,10 +31,10 @@ def run(exclude=(), tag="all"):
     rows, tex = [], []
     for m in methods:
         v = V[m]
-        cells = [f"{K.mean_sd(v[k])[0]:.2f} ± {K.mean_sd(v[k])[1]:.2f}" for k, _ in METRICS]
+        cells = [f"{K.mean_sd(v[k])[0]:.2f} ({K.mean_sd(v[k])[1]:.2f})" for k, _ in METRICS]
         ok = ~resp[m]
         sm, ss = K.mean_sd(v["speed_rmse"][ok])
-        cells.append(f"{sm:.2f} ± {ss:.2f} (n={ok.sum()})")
+        cells.append(f"{sm:.2f} ({ss:.2f}), n={ok.sum()}")
         cells.append(f"{resp[m].sum()}/15")
         rows.append([K.LABEL[m]] + cells)
         tex.append(f"{K.LABEL[m]} & " + " & ".join(

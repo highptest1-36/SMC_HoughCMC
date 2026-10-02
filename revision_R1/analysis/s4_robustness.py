@@ -65,7 +65,7 @@ def run():
                     keep = cell(m, c, variant)
                     x = K.arr(D[m][c], metric)[keep]
                     mu, sd = K.mean_sd(x)
-                    row.append(f"{mu:.2f} ± {sd:.2f} (n={keep.sum()})")
+                    row.append(f"{mu:.2f} ({sd:.2f}), n={keep.sum()}")
                 rows.append(row)
         md.append(f"\n**Variant {variant}: {title}**\n")
         md.append(K.md_table(["Metric", "Condition"] + [K.LABEL[m] for m in M4], rows))

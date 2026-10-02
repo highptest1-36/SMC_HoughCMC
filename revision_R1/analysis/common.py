@@ -43,7 +43,7 @@ BOUNDS = {"lambda_a": (0.01, 1.0), "eta_a": (0.5, 20.0), "phi_a": (1.0, 80.0),
 PARAMS = list(BOUNDS)
 
 METHODS = ["PID", "TunedPID", "ManualSMC", "GridSMC", "PSO_SMC", "BO_SMC"]
-LABEL = {"PID": "PID", "TunedPID": "Tuned PID", "ManualSMC": "Manual SMC",
+LABEL = {"PID": "Classical PID", "TunedPID": "Tuned PID", "ManualSMC": "Manual SMC",
          "GridSMC": "Grid-search SMC", "PSO_SMC": "PSO SMC", "BO_SMC": "Proposed BO-SMC"}
 
 RESPAWN_SPEED_RMSE = 7.0     # km/h; runs above this contain a simulator respawn (gap 4.3 -> 10.7)

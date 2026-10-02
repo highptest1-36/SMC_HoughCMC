@@ -1,16 +1,16 @@
 # Revision R1 — analysis report (CMC ID 92446)
-Generated: 2026-09-30 19:53:43 · Python 3.10.6 · numpy 1.26.4 · scipy 1.15.3 · matplotlib 3.10.9
-Data folder: D:\Xetuhanh\UTE_Car_2025\Map_demo____1\Window\cdoe\SMC_Hough_CMC\journal_cmc\results
+Generated: 2026-10-02 18:41:37 · Python 3.10.6 · numpy 1.26.4 · scipy 1.15.3 · matplotlib 3.10.9
+Data folder: journal_cmc/results (relative to the repository root)
 
 
 ## S1. Matched-budget optimizer study (Table 2, Fig. 2)
 Budget per run: [60] evaluations; seeds per optimizer: 10; search space: 6-D (identical bounds). Grid search was not part of this study.
 
-| Optimizer | Best J mean ± SD | 95% CI (mean) | Median [IQR] | Range (best–worst seed) | Wall time/run (s) |
+| Optimizer | Best J mean (SD) | 95% CI (mean) | Median [IQR] | Range (best–worst seed) | Wall time/run (s) |
 |---|---|---|---|---|---|
-| Random search | 4.63 ± 0.64 | [4.08, 4.91] | 4.80 [4.70, 4.99] | 3.09–5.24 | 3138 |
-| Particle swarm optimization | 4.77 ± 0.41 | [4.55, 5.04] | 4.69 [4.40, 5.07] | 4.31–5.49 | 3138 |
-| Proposed Bayesian optimization | 4.17 ± 0.21 | [4.03, 4.28] | 4.18 [4.11, 4.29] | 3.78–4.49 | 3300 |
+| Random search | 4.63 (0.64) | [4.08, 4.91] | 4.80 [4.70, 4.99] | 3.09–5.24 | 3138 |
+| Particle swarm optimization | 4.77 (0.41) | [4.55, 5.04] | 4.69 [4.40, 5.07] | 4.31–5.49 | 3138 |
+| Proposed Bayesian optimization | 4.17 (0.21) | [4.03, 4.28] | 4.18 [4.11, 4.29] | 3.78–4.49 | 3300 |
 
 **Tests** (difference = first − second; negative favours the first optimizer). Wilcoxon = paired by seed index, as in the submitted manuscript. Mann–Whitney = unpaired; appropriate because optimizers ran sequentially (all random, then PSO, then BO) and the simulator noise is not seeded, so the seed index does not create a real pairing. Holm over the 2 confirmatory comparisons.
 
@@ -22,10 +22,10 @@ Budget per run: [60] evaluations; seeds per optimizer: 10; search space: 6-D (id
 
 **Dispersion.** SD: random 0.644, PSO 0.413, BO 0.205. SD ratio random/BO = 3.14 (bootstrap 95% CI 0.71–7.13); Brown–Forsythe p = 0.195 (random vs BO), 0.033 (PSO vs BO). Worst seed: BO 4.49, random 5.24, PSO 5.49. Best single run of the study: random seed 1 (J = 3.09).
 
-**Convergence (mean ± SD of running best).** RANDOM: eval 12 5.26 ± 0.82, eval 30 5.10 ± 0.64, eval 60 4.63 ± 0.64; PSO: eval 12 5.34 ± 0.69, eval 30 4.93 ± 0.40, eval 60 4.77 ± 0.41; BO: eval 12 5.53 ± 0.67, eval 30 4.37 ± 0.35, eval 60 4.17 ± 0.21. BO mean first reaches the final (eval-60) mean of PSO at evaluation 20 and of random search at evaluation 24.
+**Convergence: mean (SD) of the running best.** RANDOM: eval 12 5.26 (0.82), eval 30 5.10 (0.64), eval 60 4.63 (0.64); PSO: eval 12 5.34 (0.69), eval 30 4.93 (0.40), eval 60 4.77 (0.41); BO: eval 12 5.53 (0.67), eval 30 4.37 (0.35), eval 60 4.17 (0.21). BO mean first reaches the final (eval-60) mean of PSO at evaluation 20 and of random search at evaluation 24.
 BO found its final best at evaluations [60, 50, 41, 24, 43, 50, 57, 54, 29, 32] (still improving near 60 → not converged).
 
-**Wall time.** Per evaluation ≈ 6 s settle + seed-dependent extra settle U(0,3) s (constant within a run) + 45 s measurement. Mean per 60-evaluation run: random 3138 s, PSO 3138 s, BO 3300 s. BO overhead (GP fit + LogEI optimisation, same seeds as random) = 3.37 ± 0.62 s per BO iteration (48 iterations). Total closed-loop time of the study = 26.6 h.
+**Wall time.** Per evaluation ≈ 6 s settle + seed-dependent extra settle U(0,3) s (constant within a run) + 45 s measurement. Mean per 60-evaluation run: random 3138 s, PSO 3138 s, BO 3300 s. BO overhead (GP fit + LogEI optimisation, same seeds as random) = 3.37 s (SD 0.62 s) per BO iteration (48 iterations). Total closed-loop time of the study = 26.6 h.
 
 **BO best gains per seed** (steering channel):
 
@@ -167,22 +167,22 @@ Detection rate = 1.000 in all 90 runs. SD with ddof = 1. Respawn run = speed RMS
 
 | Method | Lane RMSE (px) | SSI (deg/step) | Jerk (deg/step²) | Saturation (fraction) | Speed RMSE, respawn-free (km/h) | Respawn runs |
 |---|---|---|---|---|---|---|
-| PID | 33.30 ± 3.44 | 10.14 ± 0.34 | 18.32 ± 0.49 | 0.18 ± 0.02 | 3.73 ± 0.22 (n=10) | 5/15 |
-| Tuned PID | 30.02 ± 3.32 | 1.09 ± 0.10 | 2.12 ± 0.18 | 0.00 ± 0.00 | 1.30 ± 0.01 (n=11) | 4/15 |
-| Manual SMC | 40.85 ± 8.07 | 0.54 ± 0.06 | 1.06 ± 0.11 | 0.00 ± 0.01 | 1.26 ± 0.35 (n=11) | 4/15 |
-| Grid-search SMC | 39.72 ± 7.59 | 2.60 ± 0.20 | 5.03 ± 0.37 | 0.26 ± 0.05 | 1.83 ± 0.04 (n=11) | 4/15 |
-| PSO SMC | 32.17 ± 6.31 | 3.37 ± 0.24 | 6.29 ± 0.39 | 0.06 ± 0.03 | 1.00 ± 0.02 (n=10) | 5/15 |
-| Proposed BO-SMC | 31.22 ± 4.59 | 1.06 ± 0.10 | 2.06 ± 0.19 | 0.01 ± 0.01 | 0.61 ± 0.01 (n=10) | 5/15 |
+| Classical PID | 33.30 (3.44) | 10.14 (0.34) | 18.32 (0.49) | 0.18 (0.02) | 3.73 (0.22), n=10 | 5/15 |
+| Tuned PID | 30.02 (3.32) | 1.09 (0.10) | 2.12 (0.18) | 0.00 (0.00) | 1.30 (0.01), n=11 | 4/15 |
+| Manual SMC | 40.85 (8.07) | 0.54 (0.06) | 1.06 (0.11) | 0.00 (0.01) | 1.26 (0.35), n=11 | 4/15 |
+| Grid-search SMC | 39.72 (7.59) | 2.60 (0.20) | 5.03 (0.37) | 0.26 (0.05) | 1.83 (0.04), n=11 | 4/15 |
+| PSO SMC | 32.17 (6.31) | 3.37 (0.24) | 6.29 (0.39) | 0.06 (0.03) | 1.00 (0.02), n=10 | 5/15 |
+| Proposed BO-SMC | 31.22 (4.59) | 1.06 (0.10) | 2.06 (0.19) | 0.01 (0.01) | 0.61 (0.01), n=10 | 5/15 |
 
 **Paired tests: proposed − comparator** (exact Wilcoxon signed-rank, two-sided; Holm over the full family of 25 tests; effect = mean paired difference with BCa 95% CI and matched-pairs rank-biserial r; negative difference = proposed lower/better).
 
 | Comparator | Metric | Mean diff [95% CI] | r_rb | Proposed lower | n | p | Holm p | Sig. |
 |---|---|---|---|---|---|---|---|---|
-| PID | Lane RMSE (px) | -2.079 [-5.652, +1.169] | -0.27 | 9/15 | 15 | 0.389 | 1.000 | no |
-| PID | SSI (deg/step) | -9.076 [-9.241, -8.856] | -1.00 | 15/15 | 15 | <0.001 | 0.002 | yes |
-| PID | Jerk (deg/step²) | -16.269 [-16.542, -15.963] | -1.00 | 15/15 | 15 | <0.001 | 0.002 | yes |
-| PID | Saturation (fraction) | -0.174 [-0.182, -0.163] | -1.00 | 15/15 | 15 | <0.001 | 0.002 | yes |
-| PID | Speed RMSE, respawn-free pairs (km/h) | -3.139 [-3.549, -2.977] | -1.00 | 5/5 | 5 | 0.062 | 0.500 | no |
+| Classical PID | Lane RMSE (px) | -2.079 [-5.652, +1.169] | -0.27 | 9/15 | 15 | 0.389 | 1.000 | no |
+| Classical PID | SSI (deg/step) | -9.076 [-9.241, -8.856] | -1.00 | 15/15 | 15 | <0.001 | 0.002 | yes |
+| Classical PID | Jerk (deg/step²) | -16.269 [-16.542, -15.963] | -1.00 | 15/15 | 15 | <0.001 | 0.002 | yes |
+| Classical PID | Saturation (fraction) | -0.174 [-0.182, -0.163] | -1.00 | 15/15 | 15 | <0.001 | 0.002 | yes |
+| Classical PID | Speed RMSE, respawn-free pairs (km/h) | -3.139 [-3.549, -2.977] | -1.00 | 5/5 | 5 | 0.062 | 0.500 | no |
 | Tuned PID | Lane RMSE (px) | +1.200 [-2.828, +4.341] | +0.17 | 4/15 | 15 | 0.599 | 1.000 | no |
 | Tuned PID | SSI (deg/step) | -0.035 [-0.108, +0.022] | -0.18 | 7/15 | 15 | 0.561 | 1.000 | no |
 | Tuned PID | Jerk (deg/step²) | -0.061 [-0.198, +0.045] | -0.17 | 7/15 | 15 | 0.599 | 1.000 | no |
@@ -205,11 +205,11 @@ Detection rate = 1.000 in all 90 runs. SD with ddof = 1. Respawn run = speed RMS
 | PSO SMC | Speed RMSE, respawn-free pairs (km/h) | -0.378 [-0.408, -0.359] | -1.00 | 5/5 | 5 | 0.062 | 0.500 | no |
 
 **Speed bimodality = simulator respawn (answer to Reviewer 1).**
-Respawn runs per controller (run indices): PID [2, 5, 7, 12, 14]; Tuned PID [1, 3, 8, 10]; Manual SMC [2, 4, 11, 13]; Grid-search SMC [0, 5, 7, 14]; PSO SMC [1, 3, 8, 10, 12]; Proposed BO-SMC [4, 6, 9, 11, 13]
+Respawn runs per controller (run indices): Classical PID [2, 5, 7, 12, 14]; Tuned PID [1, 3, 8, 10]; Manual SMC [2, 4, 11, 13]; Grid-search SMC [0, 5, 7, 14]; PSO SMC [1, 3, 8, 10, 12]; Proposed BO-SMC [4, 6, 9, 11, 13]
 In global execution order the 27 respawn runs sit at episodes [3, 6, 9, 12, 16, 19, 22, 25, 28, 31, 34, 41, 44, 47, 50, 53, 56, 60, 63, 66, 69, 72, 76, 79, 82, 85, 88]; gaps [3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 7, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, 3] (SD 0.81); random placement gives SD this small in 0.000% of 20,000 permutations → the events are periodic in time, not linked to a controller or run index. Within-controller effect of a respawn on lane RMSE: -7.1 px (mean over controllers).
-Per-frame evidence (run 0 logs): PID run 0: speed at window start 36.4 km/h, min 36.4 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Tuned PID run 0: speed at window start 48.5 km/h, min 48.1 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Manual SMC run 0: speed at window start 48.9 km/h, min 48.6 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Grid-search SMC run 0: speed at window start 7.9 km/h, min 7.9 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | PSO SMC run 0: speed at window start 49.1 km/h, min 48.4 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Proposed BO-SMC run 0: speed at window start 49.3 km/h, min 49.0 km/h, instantaneous drops (>20 km/h in one step) at t = [] s
+Per-frame evidence (run 0 logs): Classical PID run 0: speed at window start 36.4 km/h, min 36.4 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Tuned PID run 0: speed at window start 48.5 km/h, min 48.1 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Manual SMC run 0: speed at window start 48.9 km/h, min 48.6 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Grid-search SMC run 0: speed at window start 7.9 km/h, min 7.9 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | PSO SMC run 0: speed at window start 49.1 km/h, min 48.4 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Proposed BO-SMC run 0: speed at window start 49.3 km/h, min 49.0 km/h, instantaneous drops (>20 km/h in one step) at t = [] s
 
-**Pareto uncertainty on (lane RMSE, SSI) means** (paired bootstrap over run indices, 10000 resamples): P(proposed dominates X): PID 0.876, Tuned PID 0.237, Manual SMC 0.000, Grid-search SMC 1.000, PSO SMC 0.674. P(on the Pareto front): PID 0.004, Tuned PID 0.762, Manual SMC 1.000, Grid-search SMC 0.000, PSO SMC 0.046, Proposed BO-SMC 0.863
+**Pareto uncertainty on (lane RMSE, SSI) means** (paired bootstrap over run indices, 10000 resamples): P(proposed dominates X): Classical PID 0.876, Tuned PID 0.237, Manual SMC 0.000, Grid-search SMC 1.000, PSO SMC 0.674. P(on the Pareto front): Classical PID 0.004, Tuned PID 0.762, Manual SMC 1.000, Grid-search SMC 0.000, PSO SMC 0.046, Proposed BO-SMC 0.863
 
 ---
 
@@ -218,21 +218,21 @@ Detection rate = 1.000 in all 90 runs. SD with ddof = 1. Respawn run = speed RMS
 
 | Method | Lane RMSE (px) | SSI (deg/step) | Jerk (deg/step²) | Saturation (fraction) | Speed RMSE, respawn-free (km/h) | Respawn runs |
 |---|---|---|---|---|---|---|
-| PID | 33.30 ± 3.44 | 10.14 ± 0.34 | 18.32 ± 0.49 | 0.18 ± 0.02 | 3.73 ± 0.22 (n=10) | 5/15 |
-| Tuned PID | 30.02 ± 3.32 | 1.09 ± 0.10 | 2.12 ± 0.18 | 0.00 ± 0.00 | 1.30 ± 0.01 (n=11) | 4/15 |
-| Manual SMC | 40.85 ± 8.07 | 0.54 ± 0.06 | 1.06 ± 0.11 | 0.00 ± 0.01 | 1.26 ± 0.35 (n=11) | 4/15 |
-| Grid-search SMC | 39.72 ± 7.59 | 2.60 ± 0.20 | 5.03 ± 0.37 | 0.26 ± 0.05 | 1.83 ± 0.04 (n=11) | 4/15 |
-| Proposed BO-SMC | 31.22 ± 4.59 | 1.06 ± 0.10 | 2.06 ± 0.19 | 0.01 ± 0.01 | 0.61 ± 0.01 (n=10) | 5/15 |
+| Classical PID | 33.30 (3.44) | 10.14 (0.34) | 18.32 (0.49) | 0.18 (0.02) | 3.73 (0.22), n=10 | 5/15 |
+| Tuned PID | 30.02 (3.32) | 1.09 (0.10) | 2.12 (0.18) | 0.00 (0.00) | 1.30 (0.01), n=11 | 4/15 |
+| Manual SMC | 40.85 (8.07) | 0.54 (0.06) | 1.06 (0.11) | 0.00 (0.01) | 1.26 (0.35), n=11 | 4/15 |
+| Grid-search SMC | 39.72 (7.59) | 2.60 (0.20) | 5.03 (0.37) | 0.26 (0.05) | 1.83 (0.04), n=11 | 4/15 |
+| Proposed BO-SMC | 31.22 (4.59) | 1.06 (0.10) | 2.06 (0.19) | 0.01 (0.01) | 0.61 (0.01), n=10 | 5/15 |
 
 **Paired tests: proposed − comparator** (exact Wilcoxon signed-rank, two-sided; Holm over the full family of 20 tests; effect = mean paired difference with BCa 95% CI and matched-pairs rank-biserial r; negative difference = proposed lower/better).
 
 | Comparator | Metric | Mean diff [95% CI] | r_rb | Proposed lower | n | p | Holm p | Sig. |
 |---|---|---|---|---|---|---|---|---|
-| PID | Lane RMSE (px) | -2.079 [-5.652, +1.169] | -0.27 | 9/15 | 15 | 0.389 | 1.000 | no |
-| PID | SSI (deg/step) | -9.076 [-9.241, -8.856] | -1.00 | 15/15 | 15 | <0.001 | 0.001 | yes |
-| PID | Jerk (deg/step²) | -16.269 [-16.542, -15.963] | -1.00 | 15/15 | 15 | <0.001 | 0.001 | yes |
-| PID | Saturation (fraction) | -0.174 [-0.182, -0.163] | -1.00 | 15/15 | 15 | <0.001 | 0.001 | yes |
-| PID | Speed RMSE, respawn-free pairs (km/h) | -3.139 [-3.549, -2.977] | -1.00 | 5/5 | 5 | 0.062 | 0.375 | no |
+| Classical PID | Lane RMSE (px) | -2.079 [-5.652, +1.169] | -0.27 | 9/15 | 15 | 0.389 | 1.000 | no |
+| Classical PID | SSI (deg/step) | -9.076 [-9.241, -8.856] | -1.00 | 15/15 | 15 | <0.001 | 0.001 | yes |
+| Classical PID | Jerk (deg/step²) | -16.269 [-16.542, -15.963] | -1.00 | 15/15 | 15 | <0.001 | 0.001 | yes |
+| Classical PID | Saturation (fraction) | -0.174 [-0.182, -0.163] | -1.00 | 15/15 | 15 | <0.001 | 0.001 | yes |
+| Classical PID | Speed RMSE, respawn-free pairs (km/h) | -3.139 [-3.549, -2.977] | -1.00 | 5/5 | 5 | 0.062 | 0.375 | no |
 | Tuned PID | Lane RMSE (px) | +1.200 [-2.828, +4.341] | +0.17 | 4/15 | 15 | 0.599 | 1.000 | no |
 | Tuned PID | SSI (deg/step) | -0.035 [-0.108, +0.022] | -0.18 | 7/15 | 15 | 0.561 | 1.000 | no |
 | Tuned PID | Jerk (deg/step²) | -0.061 [-0.198, +0.045] | -0.17 | 7/15 | 15 | 0.599 | 1.000 | no |
@@ -250,11 +250,11 @@ Detection rate = 1.000 in all 90 runs. SD with ddof = 1. Respawn run = speed RMS
 | Grid-search SMC | Speed RMSE, respawn-free pairs (km/h) | -1.227 [-1.254, -1.199] | -1.00 | 6/6 | 6 | 0.031 | 0.250 | no |
 
 **Speed bimodality = simulator respawn (answer to Reviewer 1).**
-Respawn runs per controller (run indices): PID [2, 5, 7, 12, 14]; Tuned PID [1, 3, 8, 10]; Manual SMC [2, 4, 11, 13]; Grid-search SMC [0, 5, 7, 14]; PSO SMC [1, 3, 8, 10, 12]; Proposed BO-SMC [4, 6, 9, 11, 13]
+Respawn runs per controller (run indices): Classical PID [2, 5, 7, 12, 14]; Tuned PID [1, 3, 8, 10]; Manual SMC [2, 4, 11, 13]; Grid-search SMC [0, 5, 7, 14]; PSO SMC [1, 3, 8, 10, 12]; Proposed BO-SMC [4, 6, 9, 11, 13]
 In global execution order the 27 respawn runs sit at episodes [3, 6, 9, 12, 16, 19, 22, 25, 28, 31, 34, 41, 44, 47, 50, 53, 56, 60, 63, 66, 69, 72, 76, 79, 82, 85, 88]; gaps [3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 7, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, 3] (SD 0.81); random placement gives SD this small in 0.000% of 20,000 permutations → the events are periodic in time, not linked to a controller or run index. Within-controller effect of a respawn on lane RMSE: -7.1 px (mean over controllers).
-Per-frame evidence (run 0 logs): PID run 0: speed at window start 36.4 km/h, min 36.4 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Tuned PID run 0: speed at window start 48.5 km/h, min 48.1 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Manual SMC run 0: speed at window start 48.9 km/h, min 48.6 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Grid-search SMC run 0: speed at window start 7.9 km/h, min 7.9 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | PSO SMC run 0: speed at window start 49.1 km/h, min 48.4 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Proposed BO-SMC run 0: speed at window start 49.3 km/h, min 49.0 km/h, instantaneous drops (>20 km/h in one step) at t = [] s
+Per-frame evidence (run 0 logs): Classical PID run 0: speed at window start 36.4 km/h, min 36.4 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Tuned PID run 0: speed at window start 48.5 km/h, min 48.1 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Manual SMC run 0: speed at window start 48.9 km/h, min 48.6 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Grid-search SMC run 0: speed at window start 7.9 km/h, min 7.9 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | PSO SMC run 0: speed at window start 49.1 km/h, min 48.4 km/h, instantaneous drops (>20 km/h in one step) at t = [] s | Proposed BO-SMC run 0: speed at window start 49.3 km/h, min 49.0 km/h, instantaneous drops (>20 km/h in one step) at t = [] s
 
-**Pareto uncertainty on (lane RMSE, SSI) means** (paired bootstrap over run indices, 10000 resamples): P(proposed dominates X): PID 0.876, Tuned PID 0.237, Manual SMC 0.000, Grid-search SMC 1.000. P(on the Pareto front): PID 0.004, Tuned PID 0.762, Manual SMC 1.000, Grid-search SMC 0.000, Proposed BO-SMC 0.863
+**Pareto uncertainty on (lane RMSE, SSI) means** (paired bootstrap over run indices, 10000 resamples): P(proposed dominates X): Classical PID 0.876, Tuned PID 0.237, Manual SMC 0.000, Grid-search SMC 1.000. P(on the Pareto front): Classical PID 0.004, Tuned PID 0.762, Manual SMC 1.000, Grid-search SMC 0.000, Proposed BO-SMC 0.863
 
 ---
 
@@ -265,78 +265,78 @@ Stalled run = detection rate < 0.1 (simulator returned frames without a lane on 
 
 | Condition | Controller | Run | Detection | Lane RMSE | SSI | Speed RMSE | fps |
 |---|---|---|---|---|---|---|---|
-| Nominal | PID | 6 | 0.000 | 60.0 | 0.00 | 100.0 | 364 |
-| Nominal | PID | 7 | 0.000 | 60.0 | 0.00 | 97.4 | 395 |
+| Nominal | Classical PID | 6 | 0.000 | 60.0 | 0.00 | 100.0 | 364 |
+| Nominal | Classical PID | 7 | 0.000 | 60.0 | 0.00 | 97.4 | 395 |
 | Nominal | Tuned PID | 6 | 0.000 | 60.0 | 0.00 | 100.0 | 368 |
 | Nominal | Manual SMC | 6 | 0.000 | 60.0 | 0.00 | 100.0 | 366 |
 | Nominal | Proposed BO-SMC | 6 | 0.000 | 60.0 | 0.00 | 100.0 | 365 |
 | Blur | Proposed BO-SMC | 5 | 0.000 | 60.0 | 0.00 | 88.9 | 246 |
 
-Partially stalled runs kept in all variants: Shadow/PID run 1 (detection 0.896, lane 163.0); Shadow/PID run 8 (detection 0.894, lane 157.1); Blur/Manual SMC run 5 (detection 0.736, lane 139.5); Blur/Proposed BO-SMC run 6 (detection 0.228, lane 134.0)
+Partially stalled runs kept in all variants: Shadow/Classical PID run 1 (detection 0.896, lane 163.0); Shadow/Classical PID run 8 (detection 0.894, lane 157.1); Blur/Manual SMC run 5 (detection 0.736, lane 139.5); Blur/Proposed BO-SMC run 6 (detection 0.228, lane 134.0)
 
 **Variant A: as submitted (per-cell exclusion)**
 
-| Metric | Condition | PID | Tuned PID | Manual SMC | Proposed BO-SMC |
+| Metric | Condition | Classical PID | Tuned PID | Manual SMC | Proposed BO-SMC |
 |---|---|---|---|---|---|
-| SSI (deg/step) | Nominal | 10.07 ± 0.29 (n=8) | 1.07 ± 0.10 (n=9) | 0.59 ± 0.06 (n=9) | 1.10 ± 0.08 (n=9) |
-| SSI (deg/step) | Noise | 5.08 ± 0.45 (n=10) | 1.82 ± 0.05 (n=10) | 1.04 ± 0.05 (n=10) | 1.92 ± 0.05 (n=10) |
-| SSI (deg/step) | Shadow | 24.63 ± 0.25 (n=10) | 12.51 ± 0.55 (n=10) | 11.01 ± 0.18 (n=10) | 12.84 ± 0.39 (n=10) |
-| SSI (deg/step) | Occlusion | 21.50 ± 0.43 (n=10) | 3.80 ± 0.13 (n=10) | 2.08 ± 0.05 (n=10) | 3.72 ± 0.17 (n=10) |
-| SSI (deg/step) | Blur | 8.85 ± 0.19 (n=10) | 0.91 ± 0.07 (n=10) | 0.48 ± 0.05 (n=10) | 0.87 ± 0.21 (n=9) |
-| Lane RMSE (px) | Nominal | 34.02 ± 2.39 (n=8) | 32.84 ± 6.30 (n=9) | 42.98 ± 7.11 (n=9) | 33.74 ± 3.16 (n=9) |
-| Lane RMSE (px) | Noise | 16.12 ± 2.70 (n=10) | 16.42 ± 2.79 (n=10) | 14.83 ± 2.27 (n=10) | 16.16 ± 0.45 (n=10) |
-| Lane RMSE (px) | Shadow | 163.76 ± 4.13 (n=10) | 147.31 ± 2.88 (n=10) | 142.42 ± 2.01 (n=10) | 147.03 ± 3.86 (n=10) |
-| Lane RMSE (px) | Occlusion | 73.87 ± 8.80 (n=10) | 36.39 ± 1.80 (n=10) | 47.15 ± 3.77 (n=10) | 36.72 ± 7.00 (n=10) |
-| Lane RMSE (px) | Blur | 32.29 ± 2.18 (n=10) | 33.98 ± 6.12 (n=10) | 49.50 ± 35.15 (n=10) | 41.94 ± 34.61 (n=9) |
-| Steering variation per second (deg/s) | Nominal | 1468.52 ± 175.34 (n=8) | 148.07 ± 20.30 (n=9) | 86.14 ± 15.94 (n=9) | 157.36 ± 17.81 (n=9) |
-| Steering variation per second (deg/s) | Noise | 96.04 ± 18.33 (n=10) | 34.70 ± 4.14 (n=10) | 19.62 ± 2.38 (n=10) | 37.26 ± 2.27 (n=10) |
-| Steering variation per second (deg/s) | Shadow | 4642.79 ± 530.72 (n=10) | 2257.79 ± 323.69 (n=10) | 2012.24 ± 145.66 (n=10) | 2367.96 ± 203.88 (n=10) |
-| Steering variation per second (deg/s) | Occlusion | 3426.08 ± 231.90 (n=10) | 555.23 ± 58.01 (n=10) | 317.11 ± 28.13 (n=10) | 573.29 ± 80.78 (n=10) |
-| Steering variation per second (deg/s) | Blur | 931.59 ± 109.99 (n=10) | 103.48 ± 8.06 (n=10) | 51.78 ± 6.10 (n=10) | 97.20 ± 12.01 (n=9) |
+| SSI (deg/step) | Nominal | 10.07 (0.29), n=8 | 1.07 (0.10), n=9 | 0.59 (0.06), n=9 | 1.10 (0.08), n=9 |
+| SSI (deg/step) | Noise | 5.08 (0.45), n=10 | 1.82 (0.05), n=10 | 1.04 (0.05), n=10 | 1.92 (0.05), n=10 |
+| SSI (deg/step) | Shadow | 24.63 (0.25), n=10 | 12.51 (0.55), n=10 | 11.01 (0.18), n=10 | 12.84 (0.39), n=10 |
+| SSI (deg/step) | Occlusion | 21.50 (0.43), n=10 | 3.80 (0.13), n=10 | 2.08 (0.05), n=10 | 3.72 (0.17), n=10 |
+| SSI (deg/step) | Blur | 8.85 (0.19), n=10 | 0.91 (0.07), n=10 | 0.48 (0.05), n=10 | 0.87 (0.21), n=9 |
+| Lane RMSE (px) | Nominal | 34.02 (2.39), n=8 | 32.84 (6.30), n=9 | 42.98 (7.11), n=9 | 33.74 (3.16), n=9 |
+| Lane RMSE (px) | Noise | 16.12 (2.70), n=10 | 16.42 (2.79), n=10 | 14.83 (2.27), n=10 | 16.16 (0.45), n=10 |
+| Lane RMSE (px) | Shadow | 163.76 (4.13), n=10 | 147.31 (2.88), n=10 | 142.42 (2.01), n=10 | 147.03 (3.86), n=10 |
+| Lane RMSE (px) | Occlusion | 73.87 (8.80), n=10 | 36.39 (1.80), n=10 | 47.15 (3.77), n=10 | 36.72 (7.00), n=10 |
+| Lane RMSE (px) | Blur | 32.29 (2.18), n=10 | 33.98 (6.12), n=10 | 49.50 (35.15), n=10 | 41.94 (34.61), n=9 |
+| Steering variation per second (deg/s) | Nominal | 1468.52 (175.34), n=8 | 148.07 (20.30), n=9 | 86.14 (15.94), n=9 | 157.36 (17.81), n=9 |
+| Steering variation per second (deg/s) | Noise | 96.04 (18.33), n=10 | 34.70 (4.14), n=10 | 19.62 (2.38), n=10 | 37.26 (2.27), n=10 |
+| Steering variation per second (deg/s) | Shadow | 4642.79 (530.72), n=10 | 2257.79 (323.69), n=10 | 2012.24 (145.66), n=10 | 2367.96 (203.88), n=10 |
+| Steering variation per second (deg/s) | Occlusion | 3426.08 (231.90), n=10 | 555.23 (58.01), n=10 | 317.11 (28.13), n=10 | 573.29 (80.78), n=10 |
+| Steering variation per second (deg/s) | Blur | 931.59 (109.99), n=10 | 103.48 (8.06), n=10 | 51.78 (6.10), n=10 | 97.20 (12.01), n=9 |
 
 **Variant B: no exclusion**
 
-| Metric | Condition | PID | Tuned PID | Manual SMC | Proposed BO-SMC |
+| Metric | Condition | Classical PID | Tuned PID | Manual SMC | Proposed BO-SMC |
 |---|---|---|---|---|---|
-| SSI (deg/step) | Nominal | 8.06 ± 4.25 (n=10) | 0.96 ± 0.35 (n=10) | 0.53 ± 0.20 (n=10) | 0.99 ± 0.35 (n=10) |
-| SSI (deg/step) | Noise | 5.08 ± 0.45 (n=10) | 1.82 ± 0.05 (n=10) | 1.04 ± 0.05 (n=10) | 1.92 ± 0.05 (n=10) |
-| SSI (deg/step) | Shadow | 24.63 ± 0.25 (n=10) | 12.51 ± 0.55 (n=10) | 11.01 ± 0.18 (n=10) | 12.84 ± 0.39 (n=10) |
-| SSI (deg/step) | Occlusion | 21.50 ± 0.43 (n=10) | 3.80 ± 0.13 (n=10) | 2.08 ± 0.05 (n=10) | 3.72 ± 0.17 (n=10) |
-| SSI (deg/step) | Blur | 8.85 ± 0.19 (n=10) | 0.91 ± 0.07 (n=10) | 0.48 ± 0.05 (n=10) | 0.78 ± 0.34 (n=10) |
-| Lane RMSE (px) | Nominal | 39.21 ± 11.16 (n=10) | 35.56 ± 10.44 (n=10) | 44.69 ± 8.60 (n=10) | 36.37 ± 8.82 (n=10) |
-| Lane RMSE (px) | Noise | 16.12 ± 2.70 (n=10) | 16.42 ± 2.79 (n=10) | 14.83 ± 2.27 (n=10) | 16.16 ± 0.45 (n=10) |
-| Lane RMSE (px) | Shadow | 163.76 ± 4.13 (n=10) | 147.31 ± 2.88 (n=10) | 142.42 ± 2.01 (n=10) | 147.03 ± 3.86 (n=10) |
-| Lane RMSE (px) | Occlusion | 73.87 ± 8.80 (n=10) | 36.39 ± 1.80 (n=10) | 47.15 ± 3.77 (n=10) | 36.72 ± 7.00 (n=10) |
-| Lane RMSE (px) | Blur | 32.29 ± 2.18 (n=10) | 33.98 ± 6.12 (n=10) | 49.50 ± 35.15 (n=10) | 43.75 ± 33.12 (n=10) |
-| Steering variation per second (deg/s) | Nominal | 1174.82 ± 638.20 (n=10) | 133.26 ± 50.58 (n=10) | 77.53 ± 31.11 (n=10) | 141.62 ± 52.52 (n=10) |
-| Steering variation per second (deg/s) | Noise | 96.04 ± 18.33 (n=10) | 34.70 ± 4.14 (n=10) | 19.62 ± 2.38 (n=10) | 37.26 ± 2.27 (n=10) |
-| Steering variation per second (deg/s) | Shadow | 4642.79 ± 530.72 (n=10) | 2257.79 ± 323.69 (n=10) | 2012.24 ± 145.66 (n=10) | 2367.96 ± 203.88 (n=10) |
-| Steering variation per second (deg/s) | Occlusion | 3426.08 ± 231.90 (n=10) | 555.23 ± 58.01 (n=10) | 317.11 ± 28.13 (n=10) | 573.29 ± 80.78 (n=10) |
-| Steering variation per second (deg/s) | Blur | 931.59 ± 109.99 (n=10) | 103.48 ± 8.06 (n=10) | 51.78 ± 6.10 (n=10) | 87.48 ± 32.76 (n=10) |
+| SSI (deg/step) | Nominal | 8.06 (4.25), n=10 | 0.96 (0.35), n=10 | 0.53 (0.20), n=10 | 0.99 (0.35), n=10 |
+| SSI (deg/step) | Noise | 5.08 (0.45), n=10 | 1.82 (0.05), n=10 | 1.04 (0.05), n=10 | 1.92 (0.05), n=10 |
+| SSI (deg/step) | Shadow | 24.63 (0.25), n=10 | 12.51 (0.55), n=10 | 11.01 (0.18), n=10 | 12.84 (0.39), n=10 |
+| SSI (deg/step) | Occlusion | 21.50 (0.43), n=10 | 3.80 (0.13), n=10 | 2.08 (0.05), n=10 | 3.72 (0.17), n=10 |
+| SSI (deg/step) | Blur | 8.85 (0.19), n=10 | 0.91 (0.07), n=10 | 0.48 (0.05), n=10 | 0.78 (0.34), n=10 |
+| Lane RMSE (px) | Nominal | 39.21 (11.16), n=10 | 35.56 (10.44), n=10 | 44.69 (8.60), n=10 | 36.37 (8.82), n=10 |
+| Lane RMSE (px) | Noise | 16.12 (2.70), n=10 | 16.42 (2.79), n=10 | 14.83 (2.27), n=10 | 16.16 (0.45), n=10 |
+| Lane RMSE (px) | Shadow | 163.76 (4.13), n=10 | 147.31 (2.88), n=10 | 142.42 (2.01), n=10 | 147.03 (3.86), n=10 |
+| Lane RMSE (px) | Occlusion | 73.87 (8.80), n=10 | 36.39 (1.80), n=10 | 47.15 (3.77), n=10 | 36.72 (7.00), n=10 |
+| Lane RMSE (px) | Blur | 32.29 (2.18), n=10 | 33.98 (6.12), n=10 | 49.50 (35.15), n=10 | 43.75 (33.12), n=10 |
+| Steering variation per second (deg/s) | Nominal | 1174.82 (638.20), n=10 | 133.26 (50.58), n=10 | 77.53 (31.11), n=10 | 141.62 (52.52), n=10 |
+| Steering variation per second (deg/s) | Noise | 96.04 (18.33), n=10 | 34.70 (4.14), n=10 | 19.62 (2.38), n=10 | 37.26 (2.27), n=10 |
+| Steering variation per second (deg/s) | Shadow | 4642.79 (530.72), n=10 | 2257.79 (323.69), n=10 | 2012.24 (145.66), n=10 | 2367.96 (203.88), n=10 |
+| Steering variation per second (deg/s) | Occlusion | 3426.08 (231.90), n=10 | 555.23 (58.01), n=10 | 317.11 (28.13), n=10 | 573.29 (80.78), n=10 |
+| Steering variation per second (deg/s) | Blur | 931.59 (109.99), n=10 | 103.48 (8.06), n=10 | 51.78 (6.10), n=10 | 87.48 (32.76), n=10 |
 
 **Variant C: balanced exclusion (same run indices removed for all controllers)**
 
-| Metric | Condition | PID | Tuned PID | Manual SMC | Proposed BO-SMC |
+| Metric | Condition | Classical PID | Tuned PID | Manual SMC | Proposed BO-SMC |
 |---|---|---|---|---|---|
-| SSI (deg/step) | Nominal | 10.07 ± 0.29 (n=8) | 1.06 ± 0.10 (n=8) | 0.60 ± 0.06 (n=8) | 1.10 ± 0.08 (n=8) |
-| SSI (deg/step) | Noise | 5.08 ± 0.45 (n=10) | 1.82 ± 0.05 (n=10) | 1.04 ± 0.05 (n=10) | 1.92 ± 0.05 (n=10) |
-| SSI (deg/step) | Shadow | 24.63 ± 0.25 (n=10) | 12.51 ± 0.55 (n=10) | 11.01 ± 0.18 (n=10) | 12.84 ± 0.39 (n=10) |
-| SSI (deg/step) | Occlusion | 21.50 ± 0.43 (n=10) | 3.80 ± 0.13 (n=10) | 2.08 ± 0.05 (n=10) | 3.72 ± 0.17 (n=10) |
-| SSI (deg/step) | Blur | 8.81 ± 0.16 (n=9) | 0.90 ± 0.07 (n=9) | 0.47 ± 0.04 (n=9) | 0.87 ± 0.21 (n=9) |
-| Lane RMSE (px) | Nominal | 34.02 ± 2.39 (n=8) | 32.72 ± 6.72 (n=8) | 43.63 ± 7.32 (n=8) | 34.41 ± 2.62 (n=8) |
-| Lane RMSE (px) | Noise | 16.12 ± 2.70 (n=10) | 16.42 ± 2.79 (n=10) | 14.83 ± 2.27 (n=10) | 16.16 ± 0.45 (n=10) |
-| Lane RMSE (px) | Shadow | 163.76 ± 4.13 (n=10) | 147.31 ± 2.88 (n=10) | 142.42 ± 2.01 (n=10) | 147.03 ± 3.86 (n=10) |
-| Lane RMSE (px) | Occlusion | 73.87 ± 8.80 (n=10) | 36.39 ± 1.80 (n=10) | 47.15 ± 3.77 (n=10) | 36.72 ± 7.00 (n=10) |
-| Lane RMSE (px) | Blur | 32.22 ± 2.30 (n=9) | 34.65 ± 6.08 (n=9) | 39.50 ± 16.28 (n=9) | 41.94 ± 34.61 (n=9) |
-| Steering variation per second (deg/s) | Nominal | 1468.52 ± 175.34 (n=8) | 146.30 ± 20.94 (n=8) | 87.37 ± 16.58 (n=8) | 158.14 ± 18.88 (n=8) |
-| Steering variation per second (deg/s) | Noise | 96.04 ± 18.33 (n=10) | 34.70 ± 4.14 (n=10) | 19.62 ± 2.38 (n=10) | 37.26 ± 2.27 (n=10) |
-| Steering variation per second (deg/s) | Shadow | 4642.79 ± 530.72 (n=10) | 2257.79 ± 323.69 (n=10) | 2012.24 ± 145.66 (n=10) | 2367.96 ± 203.88 (n=10) |
-| Steering variation per second (deg/s) | Occlusion | 3426.08 ± 231.90 (n=10) | 555.23 ± 58.01 (n=10) | 317.11 ± 28.13 (n=10) | 573.29 ± 80.78 (n=10) |
-| Steering variation per second (deg/s) | Blur | 927.23 ± 115.74 (n=9) | 103.12 ± 8.46 (n=9) | 50.43 ± 4.62 (n=9) | 97.20 ± 12.01 (n=9) |
+| SSI (deg/step) | Nominal | 10.07 (0.29), n=8 | 1.06 (0.10), n=8 | 0.60 (0.06), n=8 | 1.10 (0.08), n=8 |
+| SSI (deg/step) | Noise | 5.08 (0.45), n=10 | 1.82 (0.05), n=10 | 1.04 (0.05), n=10 | 1.92 (0.05), n=10 |
+| SSI (deg/step) | Shadow | 24.63 (0.25), n=10 | 12.51 (0.55), n=10 | 11.01 (0.18), n=10 | 12.84 (0.39), n=10 |
+| SSI (deg/step) | Occlusion | 21.50 (0.43), n=10 | 3.80 (0.13), n=10 | 2.08 (0.05), n=10 | 3.72 (0.17), n=10 |
+| SSI (deg/step) | Blur | 8.81 (0.16), n=9 | 0.90 (0.07), n=9 | 0.47 (0.04), n=9 | 0.87 (0.21), n=9 |
+| Lane RMSE (px) | Nominal | 34.02 (2.39), n=8 | 32.72 (6.72), n=8 | 43.63 (7.32), n=8 | 34.41 (2.62), n=8 |
+| Lane RMSE (px) | Noise | 16.12 (2.70), n=10 | 16.42 (2.79), n=10 | 14.83 (2.27), n=10 | 16.16 (0.45), n=10 |
+| Lane RMSE (px) | Shadow | 163.76 (4.13), n=10 | 147.31 (2.88), n=10 | 142.42 (2.01), n=10 | 147.03 (3.86), n=10 |
+| Lane RMSE (px) | Occlusion | 73.87 (8.80), n=10 | 36.39 (1.80), n=10 | 47.15 (3.77), n=10 | 36.72 (7.00), n=10 |
+| Lane RMSE (px) | Blur | 32.22 (2.30), n=9 | 34.65 (6.08), n=9 | 39.50 (16.28), n=9 | 41.94 (34.61), n=9 |
+| Steering variation per second (deg/s) | Nominal | 1468.52 (175.34), n=8 | 146.30 (20.94), n=8 | 87.37 (16.58), n=8 | 158.14 (18.88), n=8 |
+| Steering variation per second (deg/s) | Noise | 96.04 (18.33), n=10 | 34.70 (4.14), n=10 | 19.62 (2.38), n=10 | 37.26 (2.27), n=10 |
+| Steering variation per second (deg/s) | Shadow | 4642.79 (530.72), n=10 | 2257.79 (323.69), n=10 | 2012.24 (145.66), n=10 | 2367.96 (203.88), n=10 |
+| Steering variation per second (deg/s) | Occlusion | 3426.08 (231.90), n=10 | 555.23 (58.01), n=10 | 317.11 (28.13), n=10 | 573.29 (80.78), n=10 |
+| Steering variation per second (deg/s) | Blur | 927.23 (115.74), n=9 | 103.12 (8.46), n=9 | 50.43 (4.62), n=9 | 97.20 (12.01), n=9 |
 
 **Mean control-loop rate per condition (Hz, non-stalled runs).** Per-step SSI is not comparable across conditions when the loop rate differs; the per-second variation above is.
 
-| Condition | PID | Tuned PID | Manual SMC | Proposed BO-SMC |
+| Condition | Classical PID | Tuned PID | Manual SMC | Proposed BO-SMC |
 |---|---|---|---|---|
 | Nominal | 146 | 139 | 146 | 143 |
 | Noise | 19 | 19 | 19 | 19 |
@@ -348,16 +348,16 @@ Partially stalled runs kept in all variants: Shadow/PID run 1 (detection 0.896, 
 
 | Comparator | Metric | Condition | n pairs | Means (proposed vs comparator) | Mean diff [95% CI] | p | Holm p | Sig. |
 |---|---|---|---|---|---|---|---|---|
-| PID | SSI | Nominal | 8 | 1.10 vs 10.07 | -8.97 [-9.16, -8.78] | 0.008 | 0.109 | no |
-| PID | SSI | Noise | 10 | 1.92 vs 5.08 | -3.15 [-3.38, -2.80] | 0.002 | 0.039 | yes |
-| PID | SSI | Shadow | 10 | 12.84 vs 24.63 | -11.79 [-12.01, -11.60] | 0.002 | 0.039 | yes |
-| PID | SSI | Occlusion | 10 | 3.72 vs 21.50 | -17.78 [-18.06, -17.50] | 0.002 | 0.039 | yes |
-| PID | SSI | Blur | 9 | 0.87 vs 8.81 | -7.94 [-8.09, -7.81] | 0.004 | 0.059 | no |
-| PID | Lane RMSE | Nominal | 8 | 34.41 vs 34.02 | +0.39 [-1.71, +2.72] | 0.844 | 1.000 | no |
-| PID | Lane RMSE | Noise | 10 | 16.16 vs 16.12 | +0.05 [-0.95, +3.20] | 0.131 | 1.000 | no |
-| PID | Lane RMSE | Shadow | 10 | 147.03 vs 163.76 | -16.72 [-19.39, -14.94] | 0.002 | 0.039 | yes |
-| PID | Lane RMSE | Occlusion | 10 | 36.72 vs 73.87 | -37.14 [-42.98, -32.39] | 0.002 | 0.039 | yes |
-| PID | Lane RMSE | Blur | 9 | 41.94 vs 32.22 | +9.72 [-2.17, +53.92] | 0.652 | 1.000 | no |
+| Classical PID | SSI | Nominal | 8 | 1.10 vs 10.07 | -8.97 [-9.16, -8.78] | 0.008 | 0.109 | no |
+| Classical PID | SSI | Noise | 10 | 1.92 vs 5.08 | -3.15 [-3.38, -2.80] | 0.002 | 0.039 | yes |
+| Classical PID | SSI | Shadow | 10 | 12.84 vs 24.63 | -11.79 [-12.01, -11.60] | 0.002 | 0.039 | yes |
+| Classical PID | SSI | Occlusion | 10 | 3.72 vs 21.50 | -17.78 [-18.06, -17.50] | 0.002 | 0.039 | yes |
+| Classical PID | SSI | Blur | 9 | 0.87 vs 8.81 | -7.94 [-8.09, -7.81] | 0.004 | 0.059 | no |
+| Classical PID | Lane RMSE | Nominal | 8 | 34.41 vs 34.02 | +0.39 [-1.71, +2.72] | 0.844 | 1.000 | no |
+| Classical PID | Lane RMSE | Noise | 10 | 16.16 vs 16.12 | +0.05 [-0.95, +3.20] | 0.131 | 1.000 | no |
+| Classical PID | Lane RMSE | Shadow | 10 | 147.03 vs 163.76 | -16.72 [-19.39, -14.94] | 0.002 | 0.039 | yes |
+| Classical PID | Lane RMSE | Occlusion | 10 | 36.72 vs 73.87 | -37.14 [-42.98, -32.39] | 0.002 | 0.039 | yes |
+| Classical PID | Lane RMSE | Blur | 9 | 41.94 vs 32.22 | +9.72 [-2.17, +53.92] | 0.652 | 1.000 | no |
 | Tuned PID | SSI | Nominal | 9 | 1.10 vs 1.07 | +0.03 [-0.01, +0.06] | 0.129 | 1.000 | no |
 | Tuned PID | SSI | Noise | 10 | 1.92 vs 1.82 | +0.10 [+0.04, +0.15] | 0.010 | 0.127 | no |
 | Tuned PID | SSI | Shadow | 10 | 12.84 vs 12.51 | +0.32 [-0.19, +0.65] | 0.064 | 0.773 | no |
@@ -378,10 +378,10 @@ Violation rate (the manuscript's 'sample frequency') = fraction of logged contro
 
 | Variant | Min detection | Lane RMSE (px) | SSI (deg/step) | Jerk (deg/step²) | m6 (px²) | Violation rate (fraction of steps) | Speed RMSE median (respawn runs) | Steering gains found by BO |
 |---|---|---|---|---|---|---|---|---|
-| Sign switching, no stability term | 0.999 | 33.34 ± 3.12 | 2.08 ± 0.11 | 4.05 ± 0.22 | 282.25 ± 66.64 | 0.437 ± 0.027 | 1.09 (2) | λ=0.343, η=0.50, φ=inert |
-| Boundary layer, no stability term | 1.000 | 39.48 ± 5.92 | 0.70 ± 0.06 | 1.36 ± 0.12 | 186.24 ± 67.02 | 0.458 ± 0.030 | 0.65 (3) | λ=0.107, η=0.50, φ=41.3 |
-| Sign switching + stability term | 0.999 | 31.93 ± 4.42 | 1.35 ± 0.08 | 2.63 ± 0.16 | 230.56 ± 94.85 | 0.458 ± 0.032 | 0.62 (3) | λ=0.188, η=0.50, φ=inert |
-| Boundary layer + stability term (full) | 1.000 | 31.26 ± 1.65 | 1.07 ± 0.06 | 2.08 ± 0.11 | 182.52 ± 17.60 | 0.443 ± 0.025 | 0.67 (1) | λ=0.167, η=0.50, φ=20.1 |
+| Sign switching, no stability term | 0.999 | 33.34 (3.12) | 2.08 (0.11) | 4.05 (0.22) | 282.25 (66.64) | 0.437 (0.027) | 1.09 (2) | λ=0.343, η=0.50, φ=inert |
+| Boundary layer, no stability term | 1.000 | 39.48 (5.92) | 0.70 (0.06) | 1.36 (0.12) | 186.24 (67.02) | 0.458 (0.030) | 0.65 (3) | λ=0.107, η=0.50, φ=41.3 |
+| Sign switching + stability term | 0.999 | 31.93 (4.42) | 1.35 (0.08) | 2.63 (0.16) | 230.56 (94.85) | 0.458 (0.032) | 0.62 (3) | λ=0.188, η=0.50, φ=inert |
+| Boundary layer + stability term (full) | 1.000 | 31.26 (1.65) | 1.07 (0.06) | 2.08 (0.11) | 182.52 (17.60) | 0.443 (0.025) | 0.67 (1) | λ=0.167, η=0.50, φ=20.1 |
 
 **Effect of adding a component** (unpaired exact Mann–Whitney, Holm over 16 tests; each comparison contrasts two separately optimised controllers, so it reflects the component AND the outcome of one optimisation run).
 
@@ -407,17 +407,17 @@ Violation rate (the manuscript's 'sample frequency') = fraction of logged contro
 ---
 
 ## S6. Revised Figure 3
-- `fig3_steering_rev_grid.png`: PID SSI 10.31 deg/step (loop 176 Hz); Grid-search SMC SSI 2.74 deg/step (loop 172 Hz); Proposed BO-SMC SSI 1.04 deg/step (loop 155 Hz)
-- `fig3_steering_rev_pso.png`: PID SSI 10.31 deg/step (loop 176 Hz); PSO SMC SSI 3.02 deg/step (loop 150 Hz); Proposed BO-SMC SSI 1.04 deg/step (loop 155 Hz)
+- `fig3_steering_rev_grid.png`: Classical PID SSI 10.31 deg/step (loop 176 Hz); Grid-search SMC SSI 2.74 deg/step (loop 172 Hz); Proposed BO-SMC SSI 1.04 deg/step (loop 155 Hz)
+- `fig3_steering_rev_pso.png`: Classical PID SSI 10.31 deg/step (loop 176 Hz); PSO SMC SSI 3.02 deg/step (loop 150 Hz); Proposed BO-SMC SSI 1.04 deg/step (loop 155 Hz)
 The per-run SSI values of run 0 differ from the 15-run means in Table 4; the caption must say 'single representative run (run index 0)'.
 
 ---
 
 ## S7. Statistics quoted in the text (reported controllers only)
 - Control loop over the 75 reported nominal episodes: mean 139.7 Hz, range 103–176 Hz.
-- New camera frames (run 0 logs, loop rate × fraction of steps with a changed lane error): PID 63% repeated, 65 Hz; Tuned PID 61% repeated, 56 Hz; Manual SMC 65% repeated, 55 Hz; Grid-search SMC 64% repeated, 61 Hz; PSO SMC 64% repeated, 55 Hz; Proposed BO-SMC 64% repeated, 56 Hz
+- New camera frames (run 0 logs, loop rate × fraction of steps with a changed lane error): Classical PID 63% repeated, 65 Hz; Tuned PID 61% repeated, 56 Hz; Manual SMC 65% repeated, 55 Hz; Grid-search SMC 64% repeated, 61 Hz; PSO SMC 64% repeated, 55 Hz; Proposed BO-SMC 64% repeated, 56 Hz
 - Respawn effect on lateral error (within controller, mean over 5 reported controllers): -8.4 px. Speed clusters: 0.60–4.31 km/h and 10.72–13.90 km/h.
-- Single-episode objective J at fixed gains (15 nominal episodes): PID SD 0.37; Tuned PID SD 0.90; Manual SMC SD 0.71; Grid-search SMC SD 0.87; Proposed BO-SMC SD 0.97. Proposed mean J 5.08 (tuning J 4.28); manual mean J 5.21, median 5.07.
+- Single-episode objective J at fixed gains (15 nominal episodes): Classical PID SD 0.37; Tuned PID SD 0.90; Manual SMC SD 0.71; Grid-search SMC SD 0.87; Proposed BO-SMC SD 0.97. Proposed mean J 5.08 (tuning J 4.28); manual mean J 5.21, median 5.07.
 - Instantaneous respawn drops inside logged windows (lane still detected): robust_BO_SMC_occlusion_seed0.json: 49.4 -> 0.0 km/h; robust_ManualSMC_noise_seed0.json: 48.9 -> 5.5 km/h; robust_ManualSMC_noise_seed0.json: 48.9 -> 0.0 km/h; robust_ManualSMC_noise_seed0.json: 48.9 -> 0.0 km/h
 - Switching share of the command, using the deployed trajectory as a proxy: phi=80: 1.3%, phi=41.3: 2.5%, phi=20.1: 4.3%, phi=14.8: 5.2%
 - Robustness variant B (no exclusion): significant after Holm (20 tests): ['PID/ssi/noise', 'PID/ssi/shadow', 'PID/ssi/occlusion', 'PID/ssi/blur', 'PID/lane_rmse_px/shadow', 'PID/lane_rmse_px/occlusion']; blur SSI vs PID Holm p = 0.039

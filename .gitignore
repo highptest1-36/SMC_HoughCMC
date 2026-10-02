@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 *.log
 .ipynb_checkpoints/
+revision_R1/output/run_log.txt

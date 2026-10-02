@@ -23,6 +23,17 @@ python revision_R1/run_all.py
 ```
 
 The script reads only `journal_cmc/results/` and writes `revision_R1/output/`. It takes about 15 s.
+Values are reported as mean (standard deviation), as in the paper, but with more decimals.
+
+| Paper | Output files (`revision_R1/output/`) |
+|---|---|
+| Table 2, Figure 2 (matched-budget optimizer study) | `tables/table2_optimizers.csv`, `tables/table2_tests.csv`, `figures/fig2_convergence_rev.png` |
+| Table 3 (deployed gains) | `tables/gains_deployed.csv` |
+| Section 3.3 (operating regime, objective sensitivity) | `tables/regime_all_bo_runs.csv`, `tables/bo_seeds_gains.csv`, `tables/sensitivity_offline.csv` |
+| Table 4, Figure 3 (nominal comparison) | `tables/table4_nominal_paper.csv`, `tables/table4_tests_paper.csv` (all 20 paired tests with 95% CIs), `figures/fig3_steering_rev_grid.png` |
+| Table 5 (robustness) | `tables/table5_variantA.csv` (as reported), `table5_variantB.csv` (no exclusion), `table5_variantC.csv` (balanced exclusion), `table5_tests.csv` |
+| Table 6 (component analysis) | `tables/table6_ablation.csv`, `tables/table6_tests.csv` |
+| All numbers quoted in the text | `REPORT.md` |
 
 ## Re-running the experiments
 

@@ -13,7 +13,7 @@ không lo nhầm môi trường CPU như trước.
 Mở **Anaconda PowerShell Prompt**, `cd` vào thư mục này rồi:
 
 ```powershell
-cd d:/Xetuhanh/UTE_Car_2025/Map_demo____1/Window/cdoe/SMC_Hough_CMC/journal_cmc
+cd journal_cmc   # from the repository root
 powershell -ExecutionPolicy Bypass -File .\setup_env.ps1
 ```
 
@@ -68,7 +68,7 @@ BO backend that will be used: botorch      ← BO chạy GPU
 
 ```powershell
 conda activate smc_cmc
-cd d:/Xetuhanh/UTE_Car_2025/Map_demo____1/Window/cdoe/SMC_Hough_CMC/journal_cmc
+cd journal_cmc   # from the repository root
 python run.py gpucheck        # (tuỳ chọn) xác nhận nhanh
 # rồi mở Map_demo_v3.exe và chạy các lệnh trong QUICKSTART.md
 ```
@@ -93,7 +93,7 @@ python run.py gpucheck        # sẽ báo CUDA: False, backend: skopt — vẫn 
 ## 🐍 Không dùng conda? Dùng venv thuần cũng được
 
 ```powershell
-cd d:/Xetuhanh/UTE_Car_2025/Map_demo____1/Window/cdoe/SMC_Hough_CMC/journal_cmc
+cd journal_cmc   # from the repository root
 py -3.10 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip

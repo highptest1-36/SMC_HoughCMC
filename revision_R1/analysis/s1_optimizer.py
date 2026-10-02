@@ -30,10 +30,10 @@ def run():
         m, s = K.mean_sd(J[o])
         lo, hi = K.boot_ci_mean(J[o])
         q1, med, q3 = np.percentile(J[o], [25, 50, 75])
-        rows.append([name, f"{m:.2f} ± {s:.2f}", f"[{lo:.2f}, {hi:.2f}]", f"{med:.2f} [{q1:.2f}, {q3:.2f}]",
+        rows.append([name, f"{m:.2f} ({s:.2f})", f"[{lo:.2f}, {hi:.2f}]", f"{med:.2f} [{q1:.2f}, {q3:.2f}]",
                      f"{J[o].min():.2f}–{J[o].max():.2f}", f"{wall[o].mean():.0f}"])
         csv_rows.append([name, m, s, lo, hi, med, q1, q3, J[o].min(), J[o].max(), wall[o].mean()])
-    md.append(K.md_table(["Optimizer", "Best J mean ± SD", "95% CI (mean)", "Median [IQR]",
+    md.append(K.md_table(["Optimizer", "Best J mean (SD)", "95% CI (mean)", "Median [IQR]",
                           "Range (best–worst seed)", "Wall time/run (s)"], rows))
     K.write_csv("table2_optimizers.csv",
                 ["optimizer", "mean", "sd", "ci_lo", "ci_hi", "median", "q1", "q3", "min", "max",
@@ -94,8 +94,8 @@ def run():
         target = mean_rb[o][-1]
         idx = np.where(mean_rb["bo"] <= target)[0]
         first_below[o] = int(idx[0]) + 1 if len(idx) else None
-    at = lambda o, e: f"{mean_rb[o][e-1]:.2f} ± {sd_rb[o][e-1]:.2f}"
-    md.append("\n**Convergence (mean ± SD of running best).** "
+    at = lambda o, e: f"{mean_rb[o][e-1]:.2f} ({sd_rb[o][e-1]:.2f})"
+    md.append("\n**Convergence: mean (SD) of the running best.** "
               + "; ".join(f"{o.upper()}: eval 12 {at(o,12)}, eval 30 {at(o,30)}, eval 60 {at(o,60)}"
                           for o, _ in OPTS)
               + f". BO mean first reaches the final (eval-60) mean of PSO at evaluation {first_below['pso']} "
@@ -111,7 +111,7 @@ def run():
               f"(constant within a run) + 45 s measurement. Mean per 60-evaluation run: random "
               f"{wall['random'].mean():.0f} s, PSO {wall['pso'].mean():.0f} s, BO {wall['bo'].mean():.0f} s. "
               f"BO overhead (GP fit + LogEI optimisation, same seeds as random) = "
-              f"{over.mean():.2f} ± {over.std(ddof=1):.2f} s per BO iteration (48 iterations). "
+              f"{over.mean():.2f} s (SD {over.std(ddof=1):.2f} s) per BO iteration (48 iterations). "
               f"Total closed-loop time of the study = {tot_h:.1f} h.")
 
     # --- BO per-seed gains ----------------------------------------------------
