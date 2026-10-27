@@ -56,6 +56,7 @@ def run():
     md.append("\nλv, ηv, φv are constant over all 27 grid evaluations → not searched; copied from the manual "
               "SMC configuration (λv = 70, ηv = 0.001, φv = 1). With ηv = 0.001 the longitudinal switching term "
               "is ≤ 0.001 (inert), so the grid controller's speed loop is effectively the manual one.")
+    md.append(_phi_v_effect())
 
     grows = []
     ab = K.load("ablation_results.json")["variants"]
@@ -150,6 +151,27 @@ def run():
 
     md.append(_sensitivity(refs))
     return "\n".join(md)
+
+
+def _phi_v_effect():
+    """Grid-search SMC speed loop: u_v = λv e_v + ηv sat(s_v/φv), sent as int(). With ηv = 0.001 the
+    switching term is bounded by 0.001 for any φv; count the steps of nominal run 0 in which it changes
+    the integer command, for the fixed φv = 1 and for the ends of the φv search range."""
+    log = K.load_log("compare_GridSMC_seed0.json")
+    e, s = np.array(log["speed_err"], float), np.array(log["s_speed"], float)
+    lam, eta = 70.0, 0.001
+    base = np.trunc(np.clip(lam * e, 0, 150))
+    out = []
+    for phi in (1.0, 50.0):
+        cmd = np.trunc(np.clip(lam * e + eta * np.clip(s / phi, -1, 1), 0, 150))
+        out.append((phi, int(np.sum(cmd != base)), int(np.max(np.abs(cmd - base)))))
+    logged = np.array(log["speed_cmd"], float)
+    match = np.mean(logged == np.trunc(np.clip(lam * e + eta * np.clip(s, -1, 1), 0, 150)))
+    rows = [[f"{phi:g}", f"{n} of {len(e)}", f"{d}"] for phi, n, d in out]
+    K.write_csv("grid_phi_v_effect.csv", ["phi_v", "steps_changed", "max_change"], rows)
+    return ("\nEffect of the fixed φv on the grid-search speed command (nominal run 0, ηv = 0.001, integer command): "
+            + "; ".join(f"φv = {phi:g}: command changed in {n} of {len(e)} steps (max {d} unit)" for phi, n, d in out)
+            + f"; logged commands reproduced by the model in {100 * match:.1f}% of steps.")
 
 
 def _sensitivity(refs):

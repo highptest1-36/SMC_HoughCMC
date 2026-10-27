@@ -22,7 +22,9 @@ def _plot(methods, fname):
     col = {"PID": "#1f77b4", "GridSMC": "#ff7f0e", "PSO_SMC": "#9467bd", "BO_SMC": "#2ca02c"}
     fig, axes = plt.subplots(len(methods), 1, figsize=(6.4, 6.2), sharex=True)
     info = []
-    for ax, m in zip(axes, methods):
+    for k, (ax, m) in enumerate(zip(axes, methods)):
+        ax.text(-0.11, 1.0, f"({'abc'[k]})", transform=ax.transAxes, ha="left", va="bottom",
+                fontsize=10, fontweight="bold")
         lg = K.load_log(f"compare_{m}_seed0.json")
         t, a = np.array(lg["t"]), np.array(lg["angle"])
         s = _ssi(a)
