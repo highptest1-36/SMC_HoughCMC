@@ -53,19 +53,24 @@ The gains are numerical coefficients acting on the raw signals of the implementa
 normalization): lateral error `e`, its increment and the steering sliding variable in px; speed error,
 its increment and the speed sliding variable in km/h; steering command in deg; speed command in the
 integer units of the simulator (0 to 150). Hence `phi_a` is in px, `phi_v` in km/h, `eta_a` in deg,
-`eta_v` in speed-command units, and `lambda_a`, `lambda_v` are scalar coefficients. Only the optimizers
-map the gains linearly from the search bounds (`journal_cmc/config.py`, `SEARCH_SPACE`) to the unit cube.
+`eta_v` in speed-command units, and `lambda_a`, `lambda_v` are scalar coefficients that act both as the
+surface slope in `s` and as the gain of the nominal feedback in `u`. Only Bayesian optimization maps the
+gains linearly from the search bounds (`journal_cmc/config.py`, `SEARCH_SPACE`) to the unit cube; PSO and
+random search operate directly on the bounds.
 
 Switching functions (`journal_cmc/controller.py`): the manual SMC uses `s/(|s|+1e-3)` in both channels
-(no width parameter); the grid-search and BO-tuned SMC use `sat(s/phi)` in both channels.
+(no tunable width parameter); the grid-search and BO-tuned SMC use `sat(s/phi)` in both channels.
 
 The grid-search SMC searched only the 3 steering gains. Its longitudinal gains `lambda_v = 70` and
 `eta_v = 0.001` are inherited from the manual SMC, and `phi_v = 1` is a fixed value taken from the
 configuration of the manual SMC (which does not use it); none of the three was searched. Because the
 switching term is bounded by `eta_v = 0.001` for any `phi_v` and the speed command is truncated to an
-integer, `phi_v` has a negligible but nonzero effect: in nominal run 0 the term changed the speed command
-in 1 of 7718 steps, by one unit, for `phi_v = 1` and for `phi_v = 50`
-(`revision_R1/analysis/s2_gains_regime.py`, function `_phi_v_effect`; output `tables/grid_phi_v_effect.csv`).
+integer, `phi_v` can affect the command only through this term. In nominal run 0 the term changed the
+speed command in 1 of 7718 steps, by one unit (in that step the speed sliding variable lies outside the
+boundary layer for every admissible `phi_v`), and the commands obtained with `phi_v = 1` and `phi_v = 50`
+(and with 99 values of `phi_v` in [1, 50]) are identical in all steps; the effect of `phi_v` is therefore
+negligible (`revision_R1/analysis/s2_gains_regime.py`, function `_phi_v_effect`; output
+`tables/grid_phi_v_effect.csv`).
 
 ## Exclusion rules of the robustness experiment (Table 5)
 

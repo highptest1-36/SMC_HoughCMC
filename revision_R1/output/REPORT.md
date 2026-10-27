@@ -1,5 +1,5 @@
 # Revision R1 — analysis report (CMC ID 92446)
-Generated: 2026-10-27 11:33:04 · Python 3.10.6 · numpy 1.26.4 · scipy 1.15.3 · matplotlib 3.10.9
+Generated: 2026-10-27 12:28:35 · Python 3.10.6 · numpy 1.26.4 · scipy 1.15.3 · matplotlib 3.10.9
 Data folder: journal_cmc/results (relative to the repository root)
 
 
@@ -64,7 +64,7 @@ lambda_a: [0.01, 0.505, 1.0]; eta_a: [0.5, 10.25, 20.0]; phi_a: [1.0, 40.5, 80.0
 
 λv, ηv, φv are constant over all 27 grid evaluations → not searched; copied from the manual SMC configuration (λv = 70, ηv = 0.001, φv = 1). With ηv = 0.001 the longitudinal switching term is ≤ 0.001 (inert), so the grid controller's speed loop is effectively the manual one.
 
-Effect of the fixed φv on the grid-search speed command (nominal run 0, ηv = 0.001, integer command): φv = 1: command changed in 1 of 7718 steps (max 1 unit); φv = 50: command changed in 1 of 7718 steps (max 1 unit); logged commands reproduced by the model in 100.0% of steps.
+Effect of the fixed φv on the grid-search speed command (nominal run 0, ηv = 0.001, integer command): φv = 1: the ηv term changed the command in 1 of 7718 steps (max 1 unit), commands differing from φv = 1 in 0 steps; φv = 50: the ηv term changed the command in 1 of 7718 steps (max 1 unit), commands differing from φv = 1 in 0 steps; over 99 values of φv in [1, 50], at most 0 steps differ from φv = 1; logged commands reproduced by the model in 100.0% of steps.
 
 ### 2.3 Deployed gains
 

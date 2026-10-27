@@ -155,22 +155,31 @@ def run():
 
 def _phi_v_effect():
     """Grid-search SMC speed loop: u_v = λv e_v + ηv sat(s_v/φv), sent as int(). With ηv = 0.001 the
-    switching term is bounded by 0.001 for any φv; count the steps of nominal run 0 in which it changes
-    the integer command, for the fixed φv = 1 and for the ends of the φv search range."""
+    switching term is bounded by 0.001 for any φv. For nominal run 0, count the steps in which the term
+    changes the integer command (against the command without it), for the fixed φv = 1 and for φv over
+    its search range [1, 50], and the steps in which the command differs between φv = 1 and other φv."""
     log = K.load_log("compare_GridSMC_seed0.json")
     e, s = np.array(log["speed_err"], float), np.array(log["s_speed"], float)
     lam, eta = 70.0, 0.001
+
+    def cmd(phi):
+        return np.trunc(np.clip(lam * e + eta * np.clip(s / phi, -1, 1), 0, 150))
+
     base = np.trunc(np.clip(lam * e, 0, 150))
     out = []
     for phi in (1.0, 50.0):
-        cmd = np.trunc(np.clip(lam * e + eta * np.clip(s / phi, -1, 1), 0, 150))
-        out.append((phi, int(np.sum(cmd != base)), int(np.max(np.abs(cmd - base)))))
+        c = cmd(phi)
+        out.append((phi, int(np.sum(c != base)), int(np.max(np.abs(c - base))), int(np.sum(c != cmd(1.0)))))
+    grid_max = max(int(np.sum(cmd(p) != cmd(1.0))) for p in np.linspace(1, 50, 99))
     logged = np.array(log["speed_cmd"], float)
-    match = np.mean(logged == np.trunc(np.clip(lam * e + eta * np.clip(s, -1, 1), 0, 150)))
-    rows = [[f"{phi:g}", f"{n} of {len(e)}", f"{d}"] for phi, n, d in out]
-    K.write_csv("grid_phi_v_effect.csv", ["phi_v", "steps_changed", "max_change"], rows)
+    match = np.mean(logged == cmd(1.0))
+    rows = [[f"{phi:g}", f"{n} of {len(e)}", f"{d}", f"{x} of {len(e)}"] for phi, n, d, x in out]
+    K.write_csv("grid_phi_v_effect.csv", ["phi_v", "steps_changed_by_eta_term", "max_change",
+                                          "steps_differing_from_phi_v_1"], rows)
     return ("\nEffect of the fixed φv on the grid-search speed command (nominal run 0, ηv = 0.001, integer command): "
-            + "; ".join(f"φv = {phi:g}: command changed in {n} of {len(e)} steps (max {d} unit)" for phi, n, d in out)
+            + "; ".join(f"φv = {phi:g}: the ηv term changed the command in {n} of {len(e)} steps (max {d} unit), "
+                        f"commands differing from φv = 1 in {x} steps" for phi, n, d, x in out)
+            + f"; over 99 values of φv in [1, 50], at most {grid_max} steps differ from φv = 1"
             + f"; logged commands reproduced by the model in {100 * match:.1f}% of steps.")
 
 
