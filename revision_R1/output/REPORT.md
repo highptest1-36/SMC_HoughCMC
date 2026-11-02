@@ -1,5 +1,5 @@
 # Revision R1 — analysis report (CMC ID 92446)
-Generated: 2026-11-02 12:06:05 · Python 3.10.6 · numpy 1.26.4 · scipy 1.15.3 · matplotlib 3.10.9
+Generated: 2026-11-02 12:38:42 · Python 3.10.6 · numpy 1.26.4 · scipy 1.15.3 · matplotlib 3.10.9
 Data folder: journal_cmc/results (relative to the repository root)
 
 
@@ -460,7 +460,7 @@ m3 = 2·m2 exactly, except for consecutive steering increments of equal sign (se
 | occlusion (4 controllers, non-stalled) | 40 | 1.830 | 1.907 | 1.697 | 1.888 | 1.0000 |
 | blur (4 controllers, non-stalled) | 39 | 1.821 | 1.791 | 1.777 | 1.975 | 0.9999 |
 
-**Per-step logs: mechanism.** A new measurement is a step in which the lateral error changes. In nominal runs a new camera frame arrives every 2.5 to 2.9 steps and the command is held in between, so consecutive increments are rarely of equal sign and m3/m2 is close to 2. Under noise, shadow, and occlusion the perturbation changes the measurement at every step, and the ratio falls (for differenced white noise the expected ratio is √3 ≈ 1.73).
+**Per-step logs: mechanism.** A new measurement is a step in which the lateral error changes. In the nominal comparison a new camera frame arrives every 2.6 to 2.9 steps and the command is held in between, so pairs of equal sign contribute little and m3/m2 is close to 2. Under noise, shadow, and occlusion the perturbation changes the measurement at every step, and the ratio falls (for differenced white noise the expected ratio is √3 ≈ 1.73).
 
 | Log (run index 0) | jerk/SSI | steps between new measurements | same-sign pairs (% of steps) | same-sign deficit (% of 2·SSI) |
 |---|---|---|---|---|

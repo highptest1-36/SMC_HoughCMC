@@ -81,8 +81,8 @@ def run():
     lhdr = ["Log (run index 0)", "jerk/SSI", "steps between new measurements", "same-sign pairs (% of steps)",
             "same-sign deficit (% of 2·SSI)"]
     md.append("\n**Per-step logs: mechanism.** A new measurement is a step in which the lateral error changes. "
-              "In nominal runs a new camera frame arrives every 2.5 to 2.9 steps and the command is held "
-              "in between, so consecutive increments are rarely of equal sign and m3/m2 is close to 2. Under "
+              "In the nominal comparison a new camera frame arrives every 2.6 to 2.9 steps and the command is "
+              "held in between, so pairs of equal sign contribute little and m3/m2 is close to 2. Under "
               "noise, shadow, and occlusion the perturbation changes the measurement at every step, and the "
               "ratio falls (for differenced white noise the expected ratio is √3 ≈ 1.73).\n")
     md.append(K.md_table(lhdr, lrows))
