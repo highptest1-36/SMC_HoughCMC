@@ -1,0 +1,6 @@
+Group,n runs,jerk/SSI (means),jerk/SSI (SDs),per-run min,per-run max,"corr(SSI, jerk)"
+"clean (4 controllers, non-stalled)",35,1.840,1.796,1.773,1.979,0.9999
+"noise (4 controllers, non-stalled)",40,1.770,1.838,1.692,1.837,0.9998
+"shadow (4 controllers, non-stalled)",40,1.866,2.112,1.763,1.966,0.9999
+"occlusion (4 controllers, non-stalled)",40,1.830,1.907,1.697,1.888,1.0000
+"blur (4 controllers, non-stalled)",39,1.821,1.791,1.777,1.975,0.9999

@@ -20,7 +20,7 @@ import traceback
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "analysis"))
 
 import common as K                                                          # noqa: E402
-import s1_optimizer, s2_gains_regime, s3_nominal, s4_robustness, s5_ablation, s6_fig3, s7_text_stats  # noqa: E402
+import s1_optimizer, s2_gains_regime, s3_nominal, s4_robustness, s5_ablation, s6_fig3, s7_text_stats, s8_jerk_ssi  # noqa: E402
 
 STEPS = [("S1 optimizer study (Table 2, Fig 2)", s1_optimizer.run),
          ("S2 tuning runs, gains, control law, regime, sensitivity", s2_gains_regime.run),
@@ -29,7 +29,8 @@ STEPS = [("S1 optimizer study (Table 2, Fig 2)", s1_optimizer.run),
          ("S4 robustness (Table 5)", s4_robustness.run),
          ("S5 ablation (Table 6)", s5_ablation.run),
          ("S6 revised Figure 3", s6_fig3.run),
-         ("S7 statistics quoted in the text", s7_text_stats.run)]
+         ("S7 statistics quoted in the text", s7_text_stats.run),
+         ("S8 jerk versus SSI", s8_jerk_ssi.run)]
 
 
 def main():

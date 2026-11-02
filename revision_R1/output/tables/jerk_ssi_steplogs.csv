@@ -1,0 +1,27 @@
+Log (run index 0),jerk/SSI,steps between new measurements,same-sign pairs (% of steps),same-sign deficit (% of 2·SSI)
+compare_BO_SMC,1.959,2.74,9.9,2.1
+compare_GridSMC,1.957,2.79,3.6,2.2
+compare_ManualSMC,1.970,2.86,8.7,1.5
+compare_PID,1.822,2.70,31.5,8.9
+compare_PSO_SMC,1.877,2.74,9.7,6.2
+compare_TunedPID,1.936,2.58,50.2,3.2
+robust_BO_SMC_blur,1.917,2.40,11.9,4.1
+robust_BO_SMC_clean,1.940,2.54,13.4,3.0
+robust_BO_SMC_noise,1.707,1.00,34.3,14.7
+robust_BO_SMC_occlusion,1.740,1.02,33.8,13.0
+robust_BO_SMC_shadow,1.831,1.02,19.1,8.5
+robust_ManualSMC_blur,1.925,2.20,15.6,3.7
+robust_ManualSMC_clean,1.951,2.61,11.0,2.5
+robust_ManualSMC_noise,1.754,1.00,32.0,12.3
+robust_ManualSMC_occlusion,1.707,1.01,35.5,14.6
+robust_ManualSMC_shadow,1.775,1.01,30.6,11.2
+robust_PID_blur,1.834,2.38,30.7,8.3
+robust_PID_clean,1.830,2.67,30.8,8.5
+robust_PID_noise,1.814,1.00,28.0,9.3
+robust_PID_occlusion,1.882,1.04,16.2,5.9
+robust_PID_shadow,1.965,1.03,4.2,1.8
+robust_TunedPID_blur,1.910,2.28,50.9,4.5
+robust_TunedPID_clean,1.936,2.47,50.2,3.2
+robust_TunedPID_noise,1.713,1.00,34.7,14.3
+robust_TunedPID_occlusion,1.710,1.02,36.0,14.5
+robust_TunedPID_shadow,1.807,1.02,23.9,9.7

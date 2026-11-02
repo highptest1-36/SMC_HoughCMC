@@ -33,6 +33,7 @@ Values are reported as mean (standard deviation), as in the paper, but with more
 | Table 4, Figure 3 (nominal comparison) | `tables/table4_nominal_paper.csv`, `tables/table4_tests_paper.csv` (all 20 paired tests with 95% CIs), `figures/fig3_steering_rev_grid.png` (panels (a) Classical PID, (b) Grid-search SMC, (c) Proposed BO-SMC) |
 | Table 5 (robustness) | `tables/table5_variantA.csv` (as reported), `table5_variantB.csv` (no exclusion), `table5_variantC.csv` (balanced exclusion), `table5_tests.csv` |
 | Table 6 (component analysis) | `tables/table6_ablation.csv`, `tables/table6_tests.csv` |
+| Section 2.5 (relationship between jerk and SSI) | `tables/jerk_ssi_table4.csv`, `jerk_ssi_table5.csv`, `jerk_ssi_table6.csv`, `jerk_ssi_steplogs.csv` |
 | All numbers quoted in the text | `REPORT.md` |
 
 ## Re-running the experiments
@@ -87,6 +88,22 @@ criterion (listed in `REPORT.md`, section S4). Three variants are computed:
 Variants A and C are implemented in `revision_R1/analysis/s4_robustness.py` (function `cell`), and the
 Holm-adjusted paired tests of variants B and C in `revision_R1/analysis/s7_text_stats.py`
 (function `_robustness_variants`); their results are listed in `REPORT.md`.
+
+## Relationship between the jerk and the SSI
+
+With the steering increments `d_k = delta_k - delta_{k-1}`, the SSI is the mean of `|d_k|` and the jerk is the
+mean of `|d_k - d_{k-1}|`. Because `|a - b| = |a| + |b|` whenever `a` and `b` have opposite signs or one of them
+is zero, the jerk equals twice the SSI (up to end effects) except for consecutive increments of equal sign:
+
+    sum |d_k - d_{k-1}| = 2 sum |d_k| - 2 sum_{same-sign pairs} min(|d_k|, |d_{k-1}|)
+
+In the nominal runs a new camera frame arrives only every 2.5 to 2.9 control steps and the command is held in
+between, so equal-sign pairs are rare and the jerk-to-SSI ratio is close to 2 (1.94 to 1.95 for the variants of
+Table 6, 1.81 to 1.95 for the controllers of Table 4). When the noise, shadow, or occlusion perturbation changes
+the measurement at every step, the ratio of the proposed controller, the tuned PID, and the manual SMC falls to
+1.71 to 1.83 (run index 0), close to the value of about 1.73 expected for differenced white noise; the classical
+PID, which often switches between its steering limits, is less affected. The analysis is in
+`revision_R1/analysis/s8_jerk_ssi.py` (section S8 of `REPORT.md`).
 
 ## Notes on the data
 

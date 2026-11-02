@@ -1,5 +1,5 @@
 # Revision R1 — analysis report (CMC ID 92446)
-Generated: 2026-10-27 12:28:35 · Python 3.10.6 · numpy 1.26.4 · scipy 1.15.3 · matplotlib 3.10.9
+Generated: 2026-11-02 12:06:05 · Python 3.10.6 · numpy 1.26.4 · scipy 1.15.3 · matplotlib 3.10.9
 Data folder: journal_cmc/results (relative to the repository root)
 
 
@@ -425,3 +425,68 @@ The per-run SSI values of run 0 differ from the 15-run means in Table 4; the cap
 - Robustness variant B (no exclusion): significant after Holm (20 tests): ['PID/ssi/noise', 'PID/ssi/shadow', 'PID/ssi/occlusion', 'PID/ssi/blur', 'PID/lane_rmse_px/shadow', 'PID/lane_rmse_px/occlusion']; blur SSI vs PID Holm p = 0.039
 - Robustness variant C (balanced exclusion): significant after Holm (20 tests): ['PID/ssi/noise', 'PID/ssi/shadow', 'PID/ssi/occlusion', 'PID/lane_rmse_px/shadow', 'PID/lane_rmse_px/occlusion']; blur SSI vs PID Holm p = 0.059
   nominal lane RMSE with balanced exclusion: PID 34.02, proposed 34.41 px
+
+---
+
+## S8. Jerk versus SSI (editorial follow-up)
+m3 = 2·m2 exactly, except for consecutive steering increments of equal sign (see module docstring).
+
+**Table 6 variants (10 runs each)**
+
+| Group | n runs | jerk/SSI (means) | jerk/SSI (SDs) | per-run min | per-run max | corr(SSI, jerk) |
+|---|---|---|---|---|---|---|
+| Sign, no | 10 | 1.950 | 2.016 | 1.935 | 1.965 | 0.9945 |
+| Boundary layer, no | 10 | 1.937 | 1.962 | 1.921 | 1.953 | 0.9980 |
+| Sign, yes | 10 | 1.942 | 1.884 | 1.922 | 1.961 | 0.9947 |
+| Boundary layer, yes | 10 | 1.942 | 1.847 | 1.924 | 1.960 | 0.9932 |
+
+**Nominal comparison, Table 4 (15 runs each)**
+
+| Group | n runs | jerk/SSI (means) | jerk/SSI (SDs) | per-run min | per-run max | corr(SSI, jerk) |
+|---|---|---|---|---|---|---|
+| Classical PID | 15 | 1.808 | 1.436 | 1.750 | 1.858 | 0.9245 |
+| Tuned PID | 15 | 1.934 | 1.809 | 1.893 | 1.959 | 0.9975 |
+| Manual SMC | 15 | 1.952 | 1.874 | 1.938 | 1.976 | 0.9994 |
+| Grid-search SMC | 15 | 1.936 | 1.865 | 1.906 | 1.961 | 0.9944 |
+| Proposed BO-SMC | 15 | 1.940 | 1.893 | 1.923 | 1.959 | 0.9984 |
+
+**Robustness conditions, Table 5 (all controllers pooled, stalled runs excluded)**
+
+| Group | n runs | jerk/SSI (means) | jerk/SSI (SDs) | per-run min | per-run max | corr(SSI, jerk) |
+|---|---|---|---|---|---|---|
+| clean (4 controllers, non-stalled) | 35 | 1.840 | 1.796 | 1.773 | 1.979 | 0.9999 |
+| noise (4 controllers, non-stalled) | 40 | 1.770 | 1.838 | 1.692 | 1.837 | 0.9998 |
+| shadow (4 controllers, non-stalled) | 40 | 1.866 | 2.112 | 1.763 | 1.966 | 0.9999 |
+| occlusion (4 controllers, non-stalled) | 40 | 1.830 | 1.907 | 1.697 | 1.888 | 1.0000 |
+| blur (4 controllers, non-stalled) | 39 | 1.821 | 1.791 | 1.777 | 1.975 | 0.9999 |
+
+**Per-step logs: mechanism.** A new measurement is a step in which the lateral error changes. In nominal runs a new camera frame arrives every 2.5 to 2.9 steps and the command is held in between, so consecutive increments are rarely of equal sign and m3/m2 is close to 2. Under noise, shadow, and occlusion the perturbation changes the measurement at every step, and the ratio falls (for differenced white noise the expected ratio is √3 ≈ 1.73).
+
+| Log (run index 0) | jerk/SSI | steps between new measurements | same-sign pairs (% of steps) | same-sign deficit (% of 2·SSI) |
+|---|---|---|---|---|
+| compare_BO_SMC | 1.959 | 2.74 | 9.9 | 2.1 |
+| compare_GridSMC | 1.957 | 2.79 | 3.6 | 2.2 |
+| compare_ManualSMC | 1.970 | 2.86 | 8.7 | 1.5 |
+| compare_PID | 1.822 | 2.70 | 31.5 | 8.9 |
+| compare_PSO_SMC | 1.877 | 2.74 | 9.7 | 6.2 |
+| compare_TunedPID | 1.936 | 2.58 | 50.2 | 3.2 |
+| robust_BO_SMC_blur | 1.917 | 2.40 | 11.9 | 4.1 |
+| robust_BO_SMC_clean | 1.940 | 2.54 | 13.4 | 3.0 |
+| robust_BO_SMC_noise | 1.707 | 1.00 | 34.3 | 14.7 |
+| robust_BO_SMC_occlusion | 1.740 | 1.02 | 33.8 | 13.0 |
+| robust_BO_SMC_shadow | 1.831 | 1.02 | 19.1 | 8.5 |
+| robust_ManualSMC_blur | 1.925 | 2.20 | 15.6 | 3.7 |
+| robust_ManualSMC_clean | 1.951 | 2.61 | 11.0 | 2.5 |
+| robust_ManualSMC_noise | 1.754 | 1.00 | 32.0 | 12.3 |
+| robust_ManualSMC_occlusion | 1.707 | 1.01 | 35.5 | 14.6 |
+| robust_ManualSMC_shadow | 1.775 | 1.01 | 30.6 | 11.2 |
+| robust_PID_blur | 1.834 | 2.38 | 30.7 | 8.3 |
+| robust_PID_clean | 1.830 | 2.67 | 30.8 | 8.5 |
+| robust_PID_noise | 1.814 | 1.00 | 28.0 | 9.3 |
+| robust_PID_occlusion | 1.882 | 1.04 | 16.2 | 5.9 |
+| robust_PID_shadow | 1.965 | 1.03 | 4.2 | 1.8 |
+| robust_TunedPID_blur | 1.910 | 2.28 | 50.9 | 4.5 |
+| robust_TunedPID_clean | 1.936 | 2.47 | 50.2 | 3.2 |
+| robust_TunedPID_noise | 1.713 | 1.00 | 34.7 | 14.3 |
+| robust_TunedPID_occlusion | 1.710 | 1.02 | 36.0 | 14.5 |
+| robust_TunedPID_shadow | 1.807 | 1.02 | 23.9 | 9.7 |

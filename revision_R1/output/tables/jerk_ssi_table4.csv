@@ -1,0 +1,6 @@
+Group,n runs,jerk/SSI (means),jerk/SSI (SDs),per-run min,per-run max,"corr(SSI, jerk)"
+Classical PID,15,1.808,1.436,1.750,1.858,0.9245
+Tuned PID,15,1.934,1.809,1.893,1.959,0.9975
+Manual SMC,15,1.952,1.874,1.938,1.976,0.9994
+Grid-search SMC,15,1.936,1.865,1.906,1.961,0.9944
+Proposed BO-SMC,15,1.940,1.893,1.923,1.959,0.9984
