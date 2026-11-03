@@ -1,12 +1,12 @@
 """
-make_readme_figures.py — figures shown in the repository README (light and dark versions).
+make_readme_figures.py — figures shown in the repository README (white background).
 
 Every value is read from journal_cmc/results/ (the same files that produce the paper's tables);
 nothing is typed in by hand. Run from the repository root:
 
     python docs/make_readme_figures.py
 
-Output: docs/figures/<name>_light.png and docs/figures/<name>_dark.png
+Output: docs/figures/<name>.png
 """
 import os
 import sys
@@ -32,10 +32,8 @@ DPI = 200
 
 # Colour roles (validated categorical palette; the proposed controller is always blue).
 THEMES = {
-    "light": dict(bg="#fcfcfb", fg="#0b0b0b", fg2="#52514e", grid="#e7e6e2", axis="#b9b8b3",
+    "light": dict(bg="#ffffff", fg="#0b0b0b", fg2="#52514e", grid="#e7e6e2", axis="#b9b8b3",
                   blue="#2a78d6", orange="#eb6834", aqua="#1baf7a", gray1="#a3a29d", gray2="#6f6e69"),
-    "dark": dict(bg="#1a1a19", fg="#f0efec", fg2="#c3c2b7", grid="#2f2f2d", axis="#5a5955",
-                 blue="#3987e5", orange="#d95926", aqua="#199e70", gray1="#77766f", gray2="#a9a8a1"),
 }
 CTRL = [("PID", "Classical PID", "orange", "o"), ("TunedPID", "Tuned PID", "aqua", "s"),
         ("ManualSMC", "Manual SMC", "gray1", "^"), ("GridSMC", "Grid-search SMC", "gray2", "D"),
@@ -58,7 +56,7 @@ def style(t):
 
 def save(fig, name, theme):
     os.makedirs(OUT, exist_ok=True)
-    fig.savefig(os.path.join(OUT, f"{name}_{theme}.png"), dpi=DPI, bbox_inches="tight", pad_inches=0.25)
+    fig.savefig(os.path.join(OUT, f"{name}.png"), dpi=DPI, bbox_inches="tight", pad_inches=0.25)
     plt.close(fig)
 
 
