@@ -35,50 +35,6 @@ Code, configuration, and data for the manuscript
 | **Honest baseline** | A PID tuned by the same Bayesian procedure performs on par (no significant difference): the contribution is an automatic, sample-efficient tuning procedure for a structured controller. |
 | **Fully reproducible analysis** | Every number, table, and figure of the paper is regenerated from the logged data with one command, without the simulator. |
 
-## What the vehicle sees
-
-The only sensor is a forward-facing camera (640×360 frames at about 55 to 65 Hz). The yellow center line is
-isolated by a color band, line segments are extracted by the probabilistic Hough transform, and the
-horizontal offset between the lane position and the image center is the error fed to the controller.
-
-<img src="docs/figures/perception.png" width="100%"
-       alt="Camera frame, yellow center-line mask, and detected Hough segments with the resulting lateral error">
-
-Robustness is tested by corrupting every camera frame before lane detection:
-
-<img src="docs/figures/perturbations.png" width="100%"
-       alt="The same frame under nominal conditions, Gaussian noise, a shadow band, an occlusion, and blur">
-
-## Results at a glance
-
-### 1. Tuning efficiency: Bayesian optimization vs PSO and random search
-
-<img src="docs/figures/optimizers.png" width="100%"
-       alt="Mean best objective versus number of closed-loop evaluations for Bayesian optimization, PSO, and random search, and the final result of each seed">
-
-### 2. Smoother steering than the classical PID
-
-<img src="docs/figures/steering.png" width="100%"
-       alt="Steering command over a 10-second window for the classical PID, which chatters between the limits, and the proposed controller">
-
-### 3. Nominal driving: five controllers, 15 runs each
-
-<img src="docs/figures/nominal.png" width="100%"
-       alt="Steering smoothness index, share of steps at the steering limit, and lateral error for five controllers">
-
-<p align="center">
-<img src="docs/figures/tradeoff.png" width="62%"
-       alt="Lateral error versus steering smoothness index for every nominal run of the five controllers">
-</p>
-
-### 4. Robustness to degraded vision
-
-<img src="docs/figures/robustness.png" width="100%"
-       alt="Steering activity under five visual conditions, and lateral error under occlusion, for four controllers">
-
-All figures above are generated from the logged results by `python docs/make_readme_figures.py`
-(output in `docs/figures/`).
-
 ## Contents
 
 | Folder | Content |
@@ -87,7 +43,7 @@ All figures above are generated from the logged results by `python docs/make_rea
 | `journal_cmc/results/optim/` | Per-run and per-evaluation results (JSON) of all experiments reported in the paper |
 | `journal_cmc/results/logs/` | Per-frame logs (run index 0 of every controller/condition) |
 | `revision_R1/` | Statistical analysis that produces every number, table and figure of the paper from the JSON files (`run_all.py`), and its output (`output/REPORT.md`, `output/tables`, `output/figures`) |
-| `docs/` | Figures of this README (`figures/`) and the script that generates them from the results (`make_readme_figures.py`) |
+| `docs/figures/` | System overview figure shown at the top of this README |
 
 ## Reproducing the tables and figures (no simulator needed)
 
