@@ -1,10 +1,104 @@
+<div align="center">
+
 # Sample-Efficient Bayesian Optimization of Boundary-Layer SMC for Vision-Based Lane Keeping
+
+**Camera → Hough lane detection → boundary-layer sliding mode control, with all six controller gains tuned
+automatically by Bayesian optimization in closed loop with a real-time driving simulator.**
+
+![Python](https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white)
+![BoTorch](https://img.shields.io/badge/BoTorch-0.16-EE4C2C?logo=pytorch&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.11-5C3EE8?logo=opencv&logoColor=white)
+![Simulator](https://img.shields.io/badge/Unity-real--time%20simulator-222222?logo=unity&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-2a78d6)
+![Paper](https://img.shields.io/badge/Paper-Computers%2C%20Materials%20%26%20Continua%20(ID%2092446)-1baf7a)
+
+</div>
+
+<p align="center">
+  <img src="docs/figures/pipeline.png" width="92%"
+       alt="System overview: camera, Hough-transform perception, steering and speed sliding mode controllers, and offline Bayesian gain tuning">
+</p>
 
 Code, configuration, and data for the manuscript
 
 > C.-P. Ha and P.-N. Le, "Sample-Efficient Bayesian Optimization of Boundary-Layer Sliding Mode
 > Control for Real-Time Vision-Based Lane Keeping", *Computers, Materials & Continua* (under review,
 > manuscript ID 92446).
+
+## Highlights
+
+| | Result (from the paper's experiments) |
+|---|---|
+| **Sample-efficient tuning** | Under the same budget of 60 closed-loop episodes, Bayesian optimization reaches a mean best objective of **4.17**, against **4.77** for PSO and 4.63 for random search, and reaches their final level after only **20 to 24** episodes. |
+| **Smooth steering** | Steering smoothness index **1.06 deg/step**, about **9.6× smoother** than the classical PID (10.14), with the steering at its ±20° limit in **0.6%** of the steps instead of 17.9%. |
+| **Robust to occlusion** | With part of the camera image blacked out, the lateral error is **36.7 px against 73.9 px** for the classical PID, with about **6× less** steering activity. |
+| **Honest baseline** | A PID tuned by the same Bayesian procedure performs on par (no significant difference): the contribution is an automatic, sample-efficient tuning procedure for a structured controller. |
+| **Fully reproducible analysis** | Every number, table, and figure of the paper is regenerated from the logged data with one command, without the simulator. |
+
+## What the vehicle sees
+
+The only sensor is a forward-facing camera (640×360 frames at about 55 to 65 Hz). The yellow center line is
+isolated by a color band, line segments are extracted by the probabilistic Hough transform, and the
+horizontal offset between the lane position and the image center is the error fed to the controller.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/perception_dark.png">
+  <img src="docs/figures/perception_light.png" width="100%"
+       alt="Camera frame, yellow center-line mask, and detected Hough segments with the resulting lateral error">
+</picture>
+
+Robustness is tested by corrupting every camera frame before lane detection:
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/perturbations_dark.png">
+  <img src="docs/figures/perturbations_light.png" width="100%"
+       alt="The same frame under nominal conditions, Gaussian noise, a shadow band, an occlusion, and blur">
+</picture>
+
+## Results at a glance
+
+### 1. Tuning efficiency: Bayesian optimization vs PSO and random search
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/optimizers_dark.png">
+  <img src="docs/figures/optimizers_light.png" width="100%"
+       alt="Mean best objective versus number of closed-loop evaluations for Bayesian optimization, PSO, and random search, and the final result of each seed">
+</picture>
+
+### 2. Smoother steering than the classical PID
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/steering_dark.png">
+  <img src="docs/figures/steering_light.png" width="100%"
+       alt="Steering command over a 10-second window for the classical PID, which chatters between the limits, and the proposed controller">
+</picture>
+
+### 3. Nominal driving: five controllers, 15 runs each
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/nominal_dark.png">
+  <img src="docs/figures/nominal_light.png" width="100%"
+       alt="Steering smoothness index, share of steps at the steering limit, and lateral error for five controllers">
+</picture>
+
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/tradeoff_dark.png">
+  <img src="docs/figures/tradeoff_light.png" width="62%"
+       alt="Lateral error versus steering smoothness index for every nominal run of the five controllers">
+</picture>
+</p>
+
+### 4. Robustness to degraded vision
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/robustness_dark.png">
+  <img src="docs/figures/robustness_light.png" width="100%"
+       alt="Steering activity under five visual conditions, and lateral error under occlusion, for four controllers">
+</picture>
+
+All figures above are generated from the logged results by `python docs/make_readme_figures.py`
+(light and dark versions in `docs/figures/`).
 
 ## Contents
 
@@ -14,6 +108,7 @@ Code, configuration, and data for the manuscript
 | `journal_cmc/results/optim/` | Per-run and per-evaluation results (JSON) of all experiments reported in the paper |
 | `journal_cmc/results/logs/` | Per-frame logs (run index 0 of every controller/condition) |
 | `revision_R1/` | Statistical analysis that produces every number, table and figure of the paper from the JSON files (`run_all.py`), and its output (`output/REPORT.md`, `output/tables`, `output/figures`) |
+| `docs/` | Figures of this README (`figures/`) and the script that generates them from the results (`make_readme_figures.py`) |
 
 ## Reproducing the tables and figures (no simulator needed)
 
