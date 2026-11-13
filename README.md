@@ -10,20 +10,24 @@ automatically by Bayesian optimization in closed loop with a real-time driving s
 ![OpenCV](https://img.shields.io/badge/OpenCV-4.11-5C3EE8?logo=opencv&logoColor=white)
 ![Simulator](https://img.shields.io/badge/Unity-real--time%20simulator-222222?logo=unity&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-2a78d6)
-![Paper](https://img.shields.io/badge/Paper-Computers%2C%20Materials%20%26%20Continua%20(ID%2092446)-1baf7a)
+[![Paper](https://img.shields.io/badge/Paper-Computers%2C%20Materials%20%26%20Continua%20(2026)-1baf7a)](https://doi.org/10.32604/cmc.2026.092446)
+[![DOI](https://img.shields.io/badge/DOI-10.32604%2Fcmc.2026.092446-2a78d6)](https://doi.org/10.32604/cmc.2026.092446)
 
 </div>
 
 <p align="center">
   <img src="docs/figures/pipeline.png" width="92%"
        alt="System overview: camera, Hough-transform perception, steering and speed sliding mode controllers, and offline Bayesian gain tuning">
+  <br><sub>System overview (Figure 1 of the paper, CC BY 4.0).</sub>
 </p>
 
-Code, configuration, and data for the manuscript
+Code, configuration, and data for the article
 
 > C.-P. Ha and P.-N. Le, "Sample-Efficient Bayesian Optimization of Boundary-Layer Sliding Mode
-> Control for Real-Time Vision-Based Lane Keeping", *Computers, Materials & Continua* (under review,
-> manuscript ID 92446).
+> Control for Real-Time Vision-Based Lane Keeping", *Computers, Materials & Continua*, 2026.
+> doi: [10.32604/cmc.2026.092446](https://doi.org/10.32604/cmc.2026.092446)
+
+If this work or repository is useful to you, please cite the article (see [Citation](#citation)).
 
 ## Highlights
 
@@ -141,6 +145,33 @@ PID, which often switches between its steering limits, is less affected. The ana
   evaluations (detection rate 0 afterwards); its controller is not used in the revised paper.
 - Runs whose speed RMSE exceeds 7 km/h contain a simulator respawn (vehicle returned to the start pose
   at zero speed); see Section 3.4 of the paper.
+
+## Citation
+
+```bibtex
+@article{Ha2026SampleEfficientBO,
+  author  = {Ha, Cao-Phuc and Le, Phu-Nguyen},
+  title   = {Sample-Efficient Bayesian Optimization of Boundary-Layer Sliding Mode Control
+             for Real-Time Vision-Based Lane Keeping},
+  journal = {Computers, Materials \& Continua},
+  year    = {2026},
+  doi     = {10.32604/cmc.2026.092446}
+}
+```
+
+Vancouver style:<br>
+Ha CP, Le PN. Sample-efficient Bayesian optimization of boundary-layer sliding mode control for real-time
+vision-based lane keeping. Comput Mater Contin. 2026. doi:10.32604/cmc.2026.092446.
+
+## Contact
+
+For questions about the article, the code, or the data, or for any other request, please contact:
+
+**Cao-Phuc Ha** (first author), Department of Artificial Intelligence, FPT University, Ho Chi Minh City, Vietnam<br>
+Email: [phuchc36@gmail.com](mailto:phuchc36@gmail.com)
+
+**Phu-Nguyen Le** (corresponding author), Faculty of Electrical and Electronics Engineering, Vietnam Aerospace
+University, 104 Nguyen Van Troi Street, Phu Nhuan Ward, Ho Chi Minh City 700000, Vietnam
 
 ## License
 
